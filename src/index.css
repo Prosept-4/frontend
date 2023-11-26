@@ -2,7 +2,5 @@
 
 @import url("./vendor/fonts.css");
 
-@import url("./blocks/page/page.css");
-
-@import url("./blocks/header/header.css");
-@import url("./blocks/header/header__logo.css");
+@import url("./components/App/App.css");
+@import url("./components/Header/Header.css");

@@ -1,4 +1,4 @@
-import logo from "../images/prosept-logo.svg"
+import logo from "../../images/prosept-logo.svg"
 
 function Header() {
   return (
