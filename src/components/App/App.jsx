@@ -1,5 +1,6 @@
+import { Routes, Route } from 'react-router-dom'
+import Main from '../Main/Main.jsx'
 import Header from '../Header/Header.jsx'
-import { Routes } from 'react-router-dom'
 
 function App() {
   return (
@@ -7,6 +8,7 @@ function App() {
       <Header />
       <Routes>
         {/*TODO: добавить protected route для защиты путей и переброса на страничку входа*/}
+        <Route path='/' element={<Main />} />
       </Routes>
     </div>
   )

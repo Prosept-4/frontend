@@ -1,5 +1,6 @@
 .header {
-
+min-height: 70px;
+background-color: rgb(91, 134, 26);
 }
 
 .header__logo {
