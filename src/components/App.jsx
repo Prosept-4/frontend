@@ -1,12 +1,14 @@
+import Header from "./Header.jsx"
+import {Routes} from "react-router-dom";
+
 function App() {
   return (
     <div className="page">
-      <h1>
-        Prosept
-      </h1>
-      <div>
-        Pros
-      </div>
+      <Header />
+      <Routes>
+        {/*TODO: добавить protected route для защиты путей и переброса на страничку входа*/}
+
+      </Routes>
     </div>
   );
 }
