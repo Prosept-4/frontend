@@ -1,7 +1,35 @@
 .header {
-
+  box-sizing: border-box;
+  padding: 10px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .header__logo {
+  height: 50px;
+}
 
+.header__nav {
+  display: flex;
+  gap: 10px;
+}
+
+.header__button {
+  text-decoration: none;
+  color: #000;
+  box-sizing: border-box;
+  padding: 10px 15px;
+  border: 2px #38A43A solid;
+  border-radius: 25px;
+  transition: 0.2s;
+}
+
+.header__button_active {
+  display: none;
+}
+
+.header__button:hover {
+  background: #38A43A;
+  color: #fff;
 }
