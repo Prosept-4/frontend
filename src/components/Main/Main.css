@@ -1,0 +1,8 @@
+.main {
+  display: flex;
+  justify-content: space-between;
+  flex: 1 0 auto;
+  padding: 20px;
+  box-sizing: border-box;
+  column-gap: 30px;
+}

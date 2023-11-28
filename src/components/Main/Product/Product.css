@@ -1,0 +1,56 @@
+.product {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-sizing: border-box;
+  column-gap: 10px;
+  background-color: #f2f2f2;
+  padding: 10px;
+  border-radius: 10px;
+  border: 2px solid rgb(192, 192, 192);
+  cursor: pointer;
+  row-gap: 1px;
+}
+
+.product:hover {
+  border: 2px solid #000;
+}
+
+.product__company {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  color: rgba(0, 183, 234, 1);
+  font-size: 14px;
+}
+
+.product__company_type_prosept {
+  color: #38a43a;
+}
+
+.product__name {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  font-size: 18px;
+  font-weight: 400;
+}
+
+.product__name_type_selected {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.product__cost {
+  text-align: end;
+  width: 100%;
+  margin: 10px 0 0 0;
+  font-size: 13px;
+}
+
+.product__cost-money {
+  color: green;
+}
