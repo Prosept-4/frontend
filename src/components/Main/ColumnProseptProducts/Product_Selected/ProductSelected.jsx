@@ -17,11 +17,11 @@ const product = {
   wb_article_td: '',
 }
 
-export default function Product() {
+export default function ProductSelected() {
   return (
     <li className='product'>
       <p className='product__company'>{product.company}</p>
-      <h3 className='product__name'>{product.name}</h3>
+      <h3 className='product__name product__name_type_selected'>{product.name}</h3>
       <p className='product__cost'>
         Цена: <span className='product__cost-money'>{`${product.cost} ₽`}</span>{' '}
       </p>

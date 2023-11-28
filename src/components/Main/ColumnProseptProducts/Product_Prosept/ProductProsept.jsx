@@ -1,5 +1,5 @@
 const product = {
-  company: 'Ozon',
+  company: 'Prosept',
   id: 245,
   article: '008-1',
   ean_13: 4680008140234.0,
@@ -17,10 +17,10 @@ const product = {
   wb_article_td: '',
 }
 
-export default function Product() {
+export default function ProductProsept() {
   return (
     <li className='product'>
-      <p className='product__company'>{product.company}</p>
+      <p className='product__company product__company_type_prosept'>{product.company}</p>
       <h3 className='product__name'>{product.name}</h3>
       <p className='product__cost'>
         Цена: <span className='product__cost-money'>{`${product.cost} ₽`}</span>{' '}

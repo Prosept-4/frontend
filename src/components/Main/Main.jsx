@@ -1,6 +1,6 @@
-import ConnectedProducts from './ConnectedProducts/ConnectedProducts.jsx'
-import ProseptProducts from './ProseptProducts/ProseptProducts.jsx'
-import ThirdPartyProducts from './ThirdPartyProducts/ThirdPartyProducts.jsx'
+import ConnectedProducts from './ColumnConnectedProducts/ColumnConnectedProducts.jsx'
+import ProseptProducts from './ColumnProseptProducts/ColumnProseptProducts.jsx'
+import ThirdPartyProducts from './ColumnThirdPartyProducts/ColumnThirdPartyProducts.jsx'
 
 export default function Main() {
   return (
