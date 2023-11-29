@@ -1,0 +1,28 @@
+.table {
+  box-sizing: border-box;
+  padding-bottom: 40px;
+}
+
+.table__headers {
+  display: flex;
+  justify-content: space-around;
+  background: #fff;
+  position: sticky;
+  top: 0;
+  box-sizing: border-box;
+  padding: 30px 0;
+  z-index: 1;
+}
+
+.table__title {
+  margin: 0;
+  font-size: 30px;
+  border-bottom: 2px #38A43A solid;
+  padding-bottom: 5px;
+}
+
+.table__list {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}

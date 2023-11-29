@@ -1,7 +1,7 @@
 import {Navigate, Route, Routes} from 'react-router-dom'
 import Header from '../Header/Header.jsx'
-import Main from '../Main/Main.jsx'
 import Auth from "../Auth/Auth.jsx";
+import Table from "../Table/Table.jsx";
 
 function App() {
   return (
@@ -18,8 +18,12 @@ function App() {
           element={<Auth/>}
         />
 
+        <Route
+          path="/table"
+          element={<Table/>}
+        />
+
         {/*TODO: добавить protected route для защиты путей и переброса на страничку входа*/}
-        <Route path='/' element={<Main />} />
       </Routes>
     </div>
   )
