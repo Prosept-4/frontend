@@ -25,6 +25,10 @@
   transition: 0.2s;
 }
 
+.header__button:last-child {
+  margin-left: 30px;
+}
+
 .header__button_active {
   display: none;
 }

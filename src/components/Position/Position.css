@@ -1,0 +1,137 @@
+.position {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+
+.position__description {
+  text-align: center;
+  width: 600px;
+  border: 2px #38A43A solid;
+  border-radius: 15px;
+  font-size: 18px;
+  box-sizing: border-box;
+  padding: 10px 20px;
+  transition: 0.3s;
+}
+
+.position__description_active {
+  background: rgba(56, 164, 58, 0.15);
+}
+
+.position__button-main {
+  background: none;
+  border: 2px #38A43A solid;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 45px;
+  width: 45px;
+  align-self: center;
+  cursor: pointer;
+  transition: 0.2s;
+  position: relative;
+}
+
+.position__button-main_active {
+  background: #38A43A;
+}
+
+.position__button-main:hover {
+  background: #38A43A;
+}
+
+.position__button-main:hover .position__icon-main {
+  fill: #fff;
+  rotate: 180deg;
+}
+
+.position__icon-main {
+  width: 35px;
+  height: 35px;
+  transition: 0.3s;
+}
+
+.position__icon-main_active {
+  fill: #fff;
+  rotate: 180deg;
+}
+
+.position__button-edit {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: 2px #38A43A solid;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  transition: 0.3s;
+  visibility: hidden;
+  opacity: 0;
+}
+
+.position__button-edit:hover {
+  background: #38A43A;
+}
+
+.position__button-edit_active {
+  visibility: visible;
+  opacity: 1;
+  top: -35px;
+  left: -20px;
+}
+
+.position__button-edit:hover .position__icon-edit {
+  color: white;
+}
+
+.position__icon-edit {
+  width: 15px;
+  height: 15px;
+  transition: 0.3s;
+}
+
+.position__button-delete {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: 2px #38A43A solid;
+  position: absolute;
+  top: 0;
+  right: 0;
+  background: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  transition: 0.3s;
+  visibility: hidden;
+  opacity: 0;
+}
+
+.position__button-delete:hover {
+  background: #38A43A;
+}
+
+.position__button-delete_active {
+  visibility: visible;
+  opacity: 1;
+  top: -35px;
+  right: -20px;
+}
+
+.position__button-delete:hover .position__icon-delete {
+  color: white;
+}
+
+.position__icon-delete {
+  width: 15px;
+  height: 15px;
+  transition: 0.3s;
+}
