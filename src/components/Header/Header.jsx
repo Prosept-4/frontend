@@ -6,7 +6,7 @@ function Header() {
     <header className="header">
       <img className="header__logo" src={logo} alt="надпись просепт и зеленое дерево"/>
       <div className="header__nav">
-        <NavLink to="/" className="header__button">
+        <NavLink to="/main" className={({isActive}) => `${isActive ? 'header__button_active' : 'header__button'}`}>
           Разметка
         </NavLink>
         <NavLink to="/table" className={({isActive}) => `${isActive ? 'header__button_active' : 'header__button'}`}>

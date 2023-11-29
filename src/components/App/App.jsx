@@ -2,6 +2,7 @@ import {Navigate, Route, Routes} from 'react-router-dom'
 import Header from '../Header/Header.jsx'
 import Auth from "../Auth/Auth.jsx";
 import Table from "../Table/Table.jsx";
+import Main from "../Main/Main.jsx";
 
 function App() {
   return (
@@ -21,6 +22,11 @@ function App() {
         <Route
           path="/table"
           element={<Table/>}
+        />
+
+        <Route
+          path="/main"
+          element={<Main/>}
         />
 
         {/*TODO: добавить protected route для защиты путей и переброса на страничку входа*/}
