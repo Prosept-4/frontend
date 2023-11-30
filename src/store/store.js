@@ -1,11 +1,16 @@
-import {configureStore} from '@reduxjs/toolkit'
+import { configureStore } from '@reduxjs/toolkit'
 import productsReducer from './prosductsSlice'
-import thirdPartySelectReducer from './thirdPartySelectSlice'
-
+import selectedThirdPartyReducer from './selectedThirdPartySlice'
+import selectedProseptReducer from './selectedProseptSlice'
+import productsProseptReducer from './productsProseptSlice'
+import filterReducer from './filterValueSlice'
 
 export default configureStore({
-  reducer:{
+  reducer: {
     productsReducer,
-    thirdPartySelectReducer
-  }
+    productsProseptReducer,
+    selectedThirdPartyReducer,
+    selectedProseptReducer,
+    filterReducer,
+  },
 })

@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const thirdPartySelectSlice = createSlice({
+const selectedThirdPartySlice = createSlice({
   name: 'thirdPartySelect',
   initialState: {
     product: {}
@@ -12,5 +12,5 @@ const thirdPartySelectSlice = createSlice({
   }
 })
 
-export const {setSelectedProduct} = thirdPartySelectSlice.actions
-export default thirdPartySelectSlice.reducer
+export const {setSelectedProduct} = selectedThirdPartySlice.actions
+export default selectedThirdPartySlice.reducer

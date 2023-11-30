@@ -1,9 +1,28 @@
+import { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { setSelectedProduct } from '../../../store/thirdPartySelectSlice'
+import { setSelectedProduct } from '../../../store/selectedThirdPartySlice'
 
 export default function Product({ product }) {
-  const selectedProduct = useSelector((state) => state.thirdPartySelectReducer.product)
+  const selectedProduct = useSelector((state) => state.selectedThirdPartyReducer.product)
   const dispatch = useDispatch()
+  const [status, setStatus] = useState('123')
+
+  useEffect(() => {
+    if (!product) {
+      return
+    }
+    console.log(product)
+    if (product.connect === true) {
+      setStatus('status-icon_type_connect')
+    }
+    if (product.noMatches === true) {
+      setStatus('status-icon_type_no-matches')
+    }
+    if (product.onHold === true) {
+      setStatus('status-icon_type_on-hold')
+    }
+  }, [product])
+
   if (!product) {
     return
   }
@@ -15,12 +34,17 @@ export default function Product({ product }) {
   return (
     <li
       onClick={handleSelect}
-      className={`product ${selectedProduct.id === product.id ? 'product_selected' : ''} `}>
+      className={`product product_type_active ${
+        selectedProduct.id === product.id ? 'product_type_selected' : ''
+      } `}>
       <p className='product__company'>{product.company}</p>
       <h3 className='product__name'>{product.name}</h3>
-      <p className='product__cost'>
-        Цена: <span className='product__cost-money'>{`${product.cost} ₽`}</span>{' '}
-      </p>
+      <div className='product__footer-wrapper'>
+        <div className={`status-icon ${status}`}></div>
+        <p className='product__cost'>
+          Цена: <span className='product__cost-money'>{`${product.cost} ₽`}</span>
+        </p>
+      </div>
     </li>
   )
 }

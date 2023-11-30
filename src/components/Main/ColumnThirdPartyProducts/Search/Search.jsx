@@ -1,7 +1,8 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { setProductsList } from '../../../../store/prosductsSlice'
+import { setFilterValue } from '../../../../store/filterValueSlice'
 
 const productsList = [
   {
@@ -9,45 +10,65 @@ const productsList = [
     company: 'Ozon',
     name: 'Антисептик вымываемый PROSEPT ULTRA концентрат 1:10  / 1 л',
     cost: '360.0',
+    connect: true,
+    noMatches: false,
+    onHold: false,
   },
   {
     id: 246,
     company: 'Ozor',
     name: 'Антисептик невымываемый PROSEPT 1:10  / 1 л',
     cost: '360.0',
+    connect: false,
+    noMatches: true,
+    onHold: false,
   },
   {
     id: 247,
     company: 'Ozot',
     name: 'PROSEPT ULTRA концентрат 1:10  / 1 л',
     cost: '780.0',
+    connect: false,
+    noMatches: false,
+    onHold: true,
   },
   {
     id: 248,
     company: 'Ozob',
     name: 'Антисептик невымываемый PROSEPT ULTRA 1:10  / 1 л',
     cost: '360.0',
+    connect: false,
+    noMatches: false,
+    onHold: false,
   },
   {
     id: 249,
     company: 'Ozom',
     name: 'Антисептик PROSEPT  1:10  / 1 л',
     cost: '380.0',
+    connect: false,
+    noMatches: false,
+    onHold: false,
   },
 ]
 
 export default function Search() {
   const dispatch = useDispatch()
+  const filterValue = useSelector((state) => state.filterReducer.filter)
 
   function handleDownloadProducts(e) {
     e.preventDefault()
     dispatch(setProductsList({ productsList }))
   }
 
-  function handleClearProducts(e) {
-    const productsList = []
-    e.preventDefault()
-    dispatch(setProductsList({ productsList }))
+  // function handleClearProducts(e) {
+  //   const productsList = []
+  //   e.preventDefault()
+  //   dispatch(setProductsList({ productsList }))
+  // }
+
+  function changeFilter(e) {
+    dispatch(setFilterValue({ value: e.target.value }))
   }
 
   return (
@@ -56,7 +77,7 @@ export default function Search() {
         <form className='search__add-form' action='submit'>
           <label className='search__add-input-lable button'>
             Загрузить файл
-            <input className='search__add-input' type='file' placeholder='Поиск' />
+            <input className='search__add-input' type='file' />
           </label>
           <button
             onClick={handleDownloadProducts}
@@ -67,8 +88,14 @@ export default function Search() {
         </form>
         <div className='search__form-wrapper'>
           <form className='search__form' action='submit'>
-            <input className='search__input' type='text' placeholder='Поиск' />
-            <button onClick={handleClearProducts} className='search__submit'></button>
+            <input
+              onChange={changeFilter}
+              value={filterValue}
+              className='search__input'
+              type='text'
+              placeholder='Название товара'
+            />
+            <div className='search__submit'></div>
           </form>
           <div className='search__dillers-wrapper'>
             <h3 className='search__dillers-title'>Производители</h3>

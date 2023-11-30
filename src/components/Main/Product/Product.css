@@ -9,17 +9,20 @@
   padding: 10px;
   border-radius: 10px;
   border: 2px solid rgb(192, 192, 192);
-  cursor: pointer;
   row-gap: 1px;
 }
 
-.product_selected {
-  border: 2px solid rgba(0, 183, 234, 1);
-  box-shadow: 0 0 5px rgba(0, 183, 234, 1);
+.product_type_active {
+  cursor: pointer;
 }
 
-.product:hover {
+.product_type_active:hover {
   border: 2px solid #888888;
+}
+
+.product_type_selected {
+  border: 2px solid rgba(0, 183, 234, 1);
+  box-shadow: 0 0 5px rgba(0, 183, 234, 1);
 }
 
 .product__company {
@@ -48,6 +51,13 @@
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
+}
+
+.product__footer-wrapper {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
 }
 
 .product__cost {

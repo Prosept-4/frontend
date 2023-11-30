@@ -43,7 +43,7 @@
 }
 
 .button_color_gray {
-  border: rgb(192, 192, 192) solid 2px;
+  border: rgb(0, 0, 0) solid 2px;
 }
 .button_color_gray:hover {
   background-color: rgb(192, 192, 192);
@@ -54,4 +54,48 @@
 .button_color_gray:active {
   color: #fff;
   background-color: rgba(0, 183, 234, 1);
+}
+
+.button_disabled {
+  border: rgb(192, 192, 192) solid 2px;
+  color: rgb(192, 192, 192);
+  cursor: auto;
+}
+
+.button_disabled:hover {
+  border: rgb(192, 192, 192) solid 2px;
+  background-color: transparent;
+  color: rgb(192, 192, 192);
+  cursor: auto;
+}
+
+.status-icon {
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+
+.status-icon_type_no-matches {
+  background-image: url('../../images/main/Red_X.svg');
+  width: 16px;
+  height: 16px;
+}
+
+.status-icon_type_connect {
+  background-image: url('../../images/main/connect.svg');
+}
+
+.button:hover .status-icon_type_connect {
+  background-image: url('../../images/main/connect_white.svg');
+}
+
+.status-icon_type_disconnect {
+  background-image: url('../../images/main/disconnect-svgrepo-com.svg');
+}
+
+.status-icon_type_on-hold {
+  background-image: url('../../images/main/time.svg');
 }
