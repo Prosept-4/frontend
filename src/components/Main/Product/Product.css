@@ -1,4 +1,5 @@
 .product {
+  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -12,8 +13,13 @@
   row-gap: 1px;
 }
 
+.product_selected {
+  border: 2px solid rgba(0, 183, 234, 1);
+  box-shadow: 0 0 5px rgba(0, 183, 234, 1);
+}
+
 .product:hover {
-  border: 2px solid #000;
+  border: 2px solid #888888;
 }
 
 .product__company {

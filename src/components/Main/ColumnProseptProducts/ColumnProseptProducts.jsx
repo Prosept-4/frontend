@@ -2,6 +2,7 @@ import ProductSelected from './Product_Selected/ProductSelected.jsx'
 import ProductProsept from './Product_Prosept/ProductProsept.jsx'
 
 export default function ProseptProducts() {
+
   return (
     <section className='column column_type_prosept-pr'>
       <h2 className='column__title'>Соотнесение с товарами <span className='column__title-prosept'>Prosept</span></h2>

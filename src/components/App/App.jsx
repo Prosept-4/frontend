@@ -3,6 +3,9 @@ import Header from '../Header/Header.jsx'
 import Main from '../Main/Main.jsx'
 import Auth from "../Auth/Auth.jsx";
 
+
+
+
 function App() {
   return (
     <div className='page'>
