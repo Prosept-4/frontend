@@ -5,21 +5,20 @@ import { setSelectedProduct } from '../../../store/selectedThirdPartySlice'
 export default function Product({ product }) {
   const selectedProduct = useSelector((state) => state.selectedThirdPartyReducer.product)
   const dispatch = useDispatch()
-  const [status, setStatus] = useState('123')
+  const [status, setStatus] = useState('')
 
   useEffect(() => {
     if (!product) {
       return
     }
-    console.log(product)
     if (product.connect === true) {
       setStatus('status-icon_type_connect')
-    }
-    if (product.noMatches === true) {
+    } else if (product.noMatches === true) {
       setStatus('status-icon_type_no-matches')
-    }
-    if (product.onHold === true) {
+    } else if (product.onHold === true) {
       setStatus('status-icon_type_on-hold')
+    } else {
+      setStatus('')
     }
   }, [product])
 

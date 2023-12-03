@@ -1,18 +1,25 @@
 import { useState } from 'react'
-import { useSelector } from 'react-redux'
-
+import { useSelector, useDispatch } from 'react-redux'
+import { changeStatusOnHoldProductsList } from '../../../store/prosductsSlice.js'
+import { setStatusOnHold } from '../../../store/selectedThirdPartySlice.js'
 import ProductSelected from './Product_Selected/ProductSelected.jsx'
 import ProductProsept from './Product_Prosept/ProductProsept.jsx'
 
 export default function ProseptProducts() {
   const [limiterNum, setLimiterNum] = useState(3)
 
+  const dispatch = useDispatch()
   const productsListProsept = useSelector((state) => state.productsProseptReducer.productsProsept)
   const selectedProduct = useSelector((state) => state.selectedThirdPartyReducer.product)
   const selectedProseptProduct = useSelector((state) => state.selectedProseptReducer.product)
 
   function changeLimiter(e) {
     setLimiterNum(Number(e.target.value))
+  }
+
+  function changeSelectedOnhold() {
+    dispatch(changeStatusOnHoldProductsList({ id: selectedProduct.id }))
+    dispatch(setStatusOnHold())
   }
 
   return (
@@ -67,7 +74,7 @@ export default function ProseptProducts() {
           <div className='column__button-svg'></div>
         </li>
         <li className='column__button-item'>
-          <button
+          <button onClick={changeSelectedOnhold}
             disabled={selectedProduct.name ? '' : true}
             className={`column__button button button_color_gray  ${
               selectedProduct.name ? '' : 'button_disabled'

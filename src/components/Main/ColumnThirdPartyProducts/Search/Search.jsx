@@ -1,5 +1,4 @@
-/* eslint-disable jsx-a11y/click-events-have-key-events */
-/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
+import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { setProductsList } from '../../../../store/prosductsSlice'
 import { setFilterValue } from '../../../../store/filterValueSlice'
@@ -53,8 +52,23 @@ const productsList = [
 ]
 
 export default function Search() {
+  const [unsortedProducts, setUnsortedProducts] = useState(0)
+  const [connectProducts, setConnectProducts] = useState(0)
+  const [onHoldProducts, setOnHoldProducts] = useState(0)
+  const [noMatchesProducts, setNoMatchesProducts] = useState(0)
+
   const dispatch = useDispatch()
   const filterValue = useSelector((state) => state.filterReducer.filter)
+  const thirdPatyProducts = useSelector((state) => state.productsReducer.products)
+
+  useEffect(() => {
+    setUnsortedProducts(
+      thirdPatyProducts.filter((prod) => !(prod.onHold || prod.noMatches || prod.connect)).length
+    )
+    setOnHoldProducts(thirdPatyProducts.filter((prod) => prod.onHold).length)
+    setNoMatchesProducts(thirdPatyProducts.filter((prod) => prod.noMatches).length)
+    setConnectProducts(thirdPatyProducts.filter((prod) => prod.connect).length)
+  }, [thirdPatyProducts])
 
   function handleDownloadProducts(e) {
     e.preventDefault()
@@ -121,7 +135,9 @@ export default function Search() {
       </div>
       <ul className='search__filters'>
         <li className='search__filter'>
-          <p className='search__slider-subtitle search__slider-subtitle_type_numbers'>12345</p>
+          <p className='search__slider-subtitle search__slider-subtitle_type_numbers'>
+            {unsortedProducts}
+          </p>
           <label className='search__switch'>
             <input className='search__check-input' type='checkbox' />
             <span className='search__slider'></span>
@@ -130,7 +146,7 @@ export default function Search() {
         </li>
         <li className='search__filter'>
           <p className='search__slider-subtitle search__slider-subtitle_color_green search__slider-subtitle_type_numbers'>
-            123
+            {connectProducts}
           </p>
           <label className='search__switch'>
             <input className='search__check-input' type='checkbox' />
@@ -140,7 +156,7 @@ export default function Search() {
         </li>
         <li className='search__filter'>
           <p className='search__slider-subtitle search__slider-subtitle_color_gray search__slider-subtitle_type_numbers'>
-            12
+            {onHoldProducts}
           </p>
           <label className='search__switch'>
             <input className='search__check-input' type='checkbox' />
@@ -150,7 +166,7 @@ export default function Search() {
         </li>
         <li className='search__filter'>
           <p className='search__slider-subtitle search__slider-subtitle_color_red search__slider-subtitle_type_numbers'>
-            1
+            {noMatchesProducts}
           </p>
           <label className='search__switch'>
             <input className='search__check-input' type='checkbox' />
