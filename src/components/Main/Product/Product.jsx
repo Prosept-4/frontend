@@ -31,19 +31,21 @@ export default function Product({ product }) {
   }
 
   return (
-    <li
-      onClick={handleSelect}
-      className={`product product_type_active ${
-        selectedProduct.id === product.id ? 'product_type_selected' : ''
-      } `}>
-      <p className='product__company'>{product.company}</p>
-      <h3 className='product__name'>{product.name}</h3>
-      <div className='product__footer-wrapper'>
-        <div className={`status-icon ${status}`}></div>
-        <p className='product__cost'>
-          Цена: <span className='product__cost-money'>{`${product.cost} ₽`}</span>
-        </p>
-      </div>
+    <li className='column__table-item'>
+      <button
+        onClick={handleSelect}
+        className={`product product_type_active ${
+          selectedProduct.id === product.id ? 'product_type_selected' : ''
+        } `}>
+        <p className='product__company'>{product.company}</p>
+        <h3 className='product__name'>{product.name}</h3>
+        <div className='product__footer-wrapper'>
+          <div className={`status-icon ${status}`}></div>
+          <p className='product__cost'>
+            Цена: <span className='product__cost-money'>{`${product.cost} ₽`}</span>
+          </p>
+        </div>
+      </button>
     </li>
   )
 }

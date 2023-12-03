@@ -16,7 +16,7 @@ const selectedThirdPartySlice = createSlice({
     setSelectedProduct(state, action){
       state.product = action.payload.product
     },
-    setStatusOnHold(state, action){
+    setStatusOnHold(state){
       state.product.connect = false
       state.product.noMatches = false
       state.product.onHold = true

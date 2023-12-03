@@ -13,15 +13,18 @@ export default function ProductProsept({ product }) {
   }
 
   return (
-    <li onClick={handleSelect}
-      className={`product product_type_active ${
-        selectedProduct.id === product.id ? 'product_type_selected' : ''
-      } `}>
-      <p className='product__company product__company_type_prosept'>{product.company}</p>
-      <h3 className='product__name'>{product.name}</h3>
-      <p className='product__cost'>
-        Цена: <span className='product__cost-money'>{`${product.cost} ₽`}</span>{' '}
-      </p>
+    <li className='column__table-item'>
+      <button
+        onClick={handleSelect}
+        className={`product product_type_active ${
+          selectedProduct.id === product.id ? 'product_type_selected' : ''
+        } `}>
+        <p className='product__company product__company_type_prosept'>{product.company}</p>
+        <h3 className='product__name'>{product.name}</h3>
+        <p className='product__cost'>
+          Цена: <span className='product__cost-money'>{`${product.cost} ₽`}</span>{' '}
+        </p>
+      </button>
     </li>
   )
 }

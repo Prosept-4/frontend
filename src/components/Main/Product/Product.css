@@ -32,6 +32,7 @@
   overflow: hidden;
   color: rgba(0, 183, 234, 1);
   font-size: 14px;
+  text-align: left;
 }
 
 .product__company_type_prosept {
@@ -44,6 +45,7 @@
   padding: 0;
   font-size: 18px;
   font-weight: 400;
+  text-align: left;
 }
 
 .product__name_type_selected {
