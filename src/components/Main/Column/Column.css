@@ -74,7 +74,7 @@
   width: 100%;
   box-sizing: border-box;
   box-shadow: inset 0 0 5px rgb(13, 86, 134);
-  height: 122px;
+  height: 130px;
   padding: 10px;
   border-radius: 10px;
   background-color: #fff;
@@ -142,9 +142,16 @@
 }
 
 .column__connected-products-wrapper{
+  width: 100%;
   flex: 1 0 auto;
   display: flex;
   flex-direction: column;
   row-gap: 40px;
   justify-content: center;
+}
+
+.column__button{
+  display: flex;
+  align-items: center;
+  column-gap: 4px;
 }

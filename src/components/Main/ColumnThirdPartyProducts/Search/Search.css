@@ -58,7 +58,7 @@
 }
 
 .search__input {
-  max-width: 100px;
+  max-width: 120px;
   width: 100%;
   border: none;
   border-bottom: 1px solid #000;
@@ -90,15 +90,6 @@
   box-sizing: border-box;
   min-height: 25px;
   min-width: 25px;
-  border: 2px solid #38a43a;
-  border-radius: 50%;
-  cursor: pointer;
-  transition: all 0.2s;
-}
-
-.search__submit:hover {
-  background-color: #38a43a;
-  background-image: url(../../../../images/main/search_icon1.svg);
 }
 
 .search__dillers-wrapper {

@@ -1,25 +1,22 @@
-const product = {
-  company: 'Prosept',
-  id: 245,
-  article: '008-1',
-  ean_13: 4680008140234.0,
-  name: 'Антисептик невымываемый PROSEPT ULTRA концентрат 1:10  / 1 л',
-  cost: '360.0',
-  recommended_price: 858.0,
-  category_id: 20.0,
-  ozon_name:
-    'Антисептик невымываемый для ответственных конструкций PROSEPT ULTRA, концентрат, 1 л.',
-  name_1c: 'Антисептик невымываемый для ответственных конструкций PROSEPT ULTRA, концентрат, 1 л.',
-  wb_name: 'Антисептик невымываемый для ответственных конструкций PROSEPT ULTRA, концентрат, 1 л.',
-  ozon_article: 189522705.0,
-  wb_article: 150033482.0,
-  ym_article: '008-1',
-  wb_article_td: '',
-}
+import { useSelector, useDispatch } from 'react-redux'
+import { setSelectedProseptProduct } from '../../../../store/selectedProseptSlice'
 
-export default function ProductProsept() {
+export default function ProductProsept({ product }) {
+  const selectedProduct = useSelector((state) => state.selectedProseptReducer.product)
+  const dispatch = useDispatch()
+  if (!product) {
+    return
+  }
+
+  function handleSelect() {
+    dispatch(setSelectedProseptProduct({ product }))
+  }
+
   return (
-    <li className='product'>
+    <li onClick={handleSelect}
+      className={`product product_type_active ${
+        selectedProduct.id === product.id ? 'product_type_selected' : ''
+      } `}>
       <p className='product__company product__company_type_prosept'>{product.company}</p>
       <h3 className='product__name'>{product.name}</h3>
       <p className='product__cost'>

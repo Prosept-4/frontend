@@ -21,7 +21,7 @@ export default function ConnectedProducts() {
           </div>
         </div>
       </div>
-      <button className='column__button button'>Отвязать</button>
+      <button className='column__button button'>Отвязать<span className='status-icon status-icon_type_disconnect'></span></button>
     </section>
   )
 }

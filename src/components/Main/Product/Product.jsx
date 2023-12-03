@@ -1,30 +1,49 @@
-const product = {
-  company: 'Ozon',
-  id: 245,
-  article: '008-1',
-  ean_13: 4680008140234.0,
-  name: 'Антисептик невымываемый PROSEPT ULTRA концентрат 1:10  / 1 л',
-  cost: '360.0',
-  recommended_price: 858.0,
-  category_id: 20.0,
-  ozon_name:
-    'Антисептик невымываемый для ответственных конструкций PROSEPT ULTRA, концентрат, 1 л.',
-  name_1c: 'Антисептик невымываемый для ответственных конструкций PROSEPT ULTRA, концентрат, 1 л.',
-  wb_name: 'Антисептик невымываемый для ответственных конструкций PROSEPT ULTRA, концентрат, 1 л.',
-  ozon_article: 189522705.0,
-  wb_article: 150033482.0,
-  ym_article: '008-1',
-  wb_article_td: '',
-}
+import { useState, useEffect } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
+import { setSelectedProduct } from '../../../store/selectedThirdPartySlice'
 
-export default function Product() {
+export default function Product({ product }) {
+  const selectedProduct = useSelector((state) => state.selectedThirdPartyReducer.product)
+  const dispatch = useDispatch()
+  const [status, setStatus] = useState('')
+
+  useEffect(() => {
+    if (!product) {
+      return
+    }
+    if (product.connect === true) {
+      setStatus('status-icon_type_connect')
+    } else if (product.noMatches === true) {
+      setStatus('status-icon_type_no-matches')
+    } else if (product.onHold === true) {
+      setStatus('status-icon_type_on-hold')
+    } else {
+      setStatus('')
+    }
+  }, [product])
+
+  if (!product) {
+    return
+  }
+
+  function handleSelect() {
+    dispatch(setSelectedProduct({ product }))
+  }
+
   return (
-    <li className='product'>
+    <li
+      onClick={handleSelect}
+      className={`product product_type_active ${
+        selectedProduct.id === product.id ? 'product_type_selected' : ''
+      } `}>
       <p className='product__company'>{product.company}</p>
       <h3 className='product__name'>{product.name}</h3>
-      <p className='product__cost'>
-        Цена: <span className='product__cost-money'>{`${product.cost} ₽`}</span>{' '}
-      </p>
+      <div className='product__footer-wrapper'>
+        <div className={`status-icon ${status}`}></div>
+        <p className='product__cost'>
+          Цена: <span className='product__cost-money'>{`${product.cost} ₽`}</span>
+        </p>
+      </div>
     </li>
   )
 }

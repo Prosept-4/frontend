@@ -4,6 +4,9 @@ import Auth from "../Auth/Auth.jsx";
 import Table from "../Table/Table.jsx";
 import Main from "../Main/Main.jsx";
 
+
+
+
 function App() {
   return (
     <div className='page'>
