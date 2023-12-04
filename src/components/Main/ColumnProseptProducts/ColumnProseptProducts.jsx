@@ -27,7 +27,7 @@ export default function ProseptProducts() {
       <h2 className='column__title'>
         Соотнесение с товарами <span className='column__title-prosept'>Prosept</span>
       </h2>
-      <p className='column__product-annotation'>Соотносимый товар стороннего производителя:</p>
+      <p className='column__product-annotation'>Соотносимый товар дилера:</p>
       <div className='column__product-wrapper'>
         <ProductSelected />
       </div>
@@ -56,7 +56,7 @@ export default function ProseptProducts() {
         </div>
       </div>
       <div className='column__table-wrapper column__table-wrapper_type_prosept'>
-        <ul className='column__table column__table_type_prosept-pr'>
+        <ul className='column__table'>
           {productsListProsept.slice(0, limiterNum).map((product) => {
             return <ProductProsept key={product.id} product={product} />
           })}

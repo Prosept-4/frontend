@@ -4,4 +4,5 @@
   padding: 20px;
   box-sizing: border-box;
   column-gap: 30px;
+  height: calc(100vh - 70px);
 }

@@ -8,11 +8,11 @@ export default function ThirdPartyProducts() {
   const filterValue = useSelector((state) => state.filterReducer.filter)
   return (
     <section className='column column_type_third-party-pr'>
-      <h2 className='column__title'>Товары сторонних производителей</h2>
+      <h2 className='column__title'>Товары дилеров</h2>
       <Search />
       <p className='column__product-annotation'>Выберите товар:</p>
       <div className='column__table-wrapper'>
-        <ul className='column__table column__table_third-party-pr'>
+        <ul className='column__table'>
           {productsList
             .filter((product) => checkName(product, filterValue))
             .map((product) => {

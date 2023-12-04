@@ -7,6 +7,8 @@
   font-size: 13px;
   cursor: pointer;
   transition: all 0.2s;
+  overflow: hidden;
+  max-width: 100%;
 }
 
 .sliding-menu:focus {
@@ -28,6 +30,7 @@
   color: #000;
   transition: all 0.2s;
   line-height: 20px;
+  padding: 0px 4px 0px 4px;
 }
 
 .button:hover {
