@@ -1,5 +1,4 @@
-/* eslint-disable no-unused-vars */
-import { useEffect, useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { setFilterValue } from '../../../../store/filterValueSlice'
 import {
@@ -9,31 +8,25 @@ import {
 } from '../../../../utils/Api'
 import { setProductsList } from '../../../../store/prosductsSlice'
 
-export default function Search() {
-  const [unsortedProducts, setUnsortedProducts] = useState(0)
-  const [onHoldProducts, setOnHoldProducts] = useState(0)
-  const [noMatchesProducts, setNoMatchesProducts] = useState(0)
-  const [productsType, setProductsType] = useState('unsort')
+export default function Search({
+  setAnnotationProductsType,
+  annotationProductsType,
+}) {
+  const [productsType, setProductsType] = useState('Несортированные')
   const [errText, setErrText] = useState('')
   const [productsNum, setProductsNum] = useState(50)
+  const [numberProductsType, setNumberProductsType] = useState(0)
 
   const dispatch = useDispatch()
   const filterValue = useSelector((state) => state.filterReducer.filter)
-  const thirdPatyProducts = useSelector(
-    (state) => state.productsReducer.products
-  )
 
   useEffect(() => {
-    setUnsortedProducts(
-      thirdPatyProducts.filter(
-        (prod) => !(prod.is_postponed || prod.has_no_matches)
-      ).length
-    )
-    setOnHoldProducts(thirdPatyProducts.filter((prod) => prod.onHold).length)
-    setNoMatchesProducts(
-      thirdPatyProducts.filter((prod) => prod.has_no_matches).length
-    )
-  }, [thirdPatyProducts])
+    const lastProductsList = JSON.parse(localStorage.getItem('lastProducts'))
+    if (lastProductsList === null) {
+      return
+    }
+    dispatch(setProductsList({ productsList: lastProductsList }))
+  }, [dispatch])
 
   function changeFilter(e) {
     dispatch(setFilterValue({ value: e.target.value }))
@@ -50,7 +43,10 @@ export default function Search() {
   function getProducts(getFunction) {
     getFunction(productsNum)
       .then((res) => {
+        console.log()
+        setNumberProductsType(res.count)
         dispatch(setProductsList({ productsList: res.results }))
+        localStorage.setItem('lastProducts', JSON.stringify(res.results))
       })
       .catch(() => {
         setErrText('Ошибка сервера')
@@ -62,19 +58,26 @@ export default function Search() {
       )
   }
 
+  function changeValue() {
+    setProductsType('Без совпадений')
+  }
+
   function downloadProducts(e) {
     setErrText('')
     dispatch(setProductsList({ productsList: [] }))
     e.preventDefault()
     switch (productsType) {
-      case 'unsort':
+      case 'Несортированные':
         getProducts(getUnsortedProducts)
+        setAnnotationProductsType(productsType)
         break
-      case 'on-hold':
+      case 'Отложенные':
         getProducts(getOnHoldProducts)
+        setAnnotationProductsType(productsType)
         break
-      case 'no-match':
+      case 'Без совпадений':
         getProducts(getNoMatchProducts)
+        setAnnotationProductsType(productsType)
         break
     }
   }
@@ -82,40 +85,21 @@ export default function Search() {
   return (
     <div className='search'>
       <div className='search__inside-wrapper'>
-        <button type='submit' className='search__button button'>
+        <button
+          onClick={changeValue}
+          type='button'
+          className='search__button button'>
           Начать анализ
         </button>
-        <div className='search__filter-wrapper'>
-          <div className='search__input-wrapper'>
-            <input
-              onChange={changeFilter}
-              value={filterValue}
-              className='search__input'
-              type='text'
-              placeholder='Название товара'
-            />
-            <div className='search__img'></div>
-          </div>
-          <div className='search__dillers-wrapper'>
-            <h3 className='search__dillers-title'>Дилеры</h3>
-            <select className='search__dillers sliding-menu'>
-              <option className='search__diller' defaultValue>
-                Все
-              </option>
-              <option className='search__diller' value='Чебурашка'>
-                Чебурашка
-              </option>
-              <option className='search__diller' value='Крокодил Гена'>
-                Крокодил Гена
-              </option>
-              <option className='search__diller' value='Шапокляк'>
-                Шапокляк
-              </option>
-              <option className='search__diller' value='Крыса Лариса'>
-                Крыса Ларисааааааааааа
-              </option>
-            </select>
-          </div>
+        <div className='search__input-wrapper'>
+          <input
+            onChange={changeFilter}
+            value={filterValue}
+            className='search__input'
+            type='text'
+            placeholder='Название товара'
+          />
+          <div className='search__img'></div>
         </div>
       </div>
       <form onSubmit={downloadProducts} className='search__request-form'>
@@ -125,18 +109,16 @@ export default function Search() {
           </p>
           <div className='search__products-wrapper'>
             <select
+              value={productsType}
               onChange={handleChangeProductsType}
               className='search__products-types sliding-menu'>
-              <option
-                className='search__product-type'
-                defaultValue
-                value='unsort'>
+              <option className='search__product-type' value='Несортированные'>
                 Несортированные
               </option>
-              <option className='search__product-type' value='on-hold'>
+              <option className='search__product-type' value='Отложенные'>
                 Отложенные
               </option>
-              <option className='search__product-type' value='no-match'>
+              <option className='search__product-type' value='Без совпадений'>
                 Без совпадений
               </option>
             </select>
@@ -158,9 +140,15 @@ export default function Search() {
         <p className='search__request-annotation search__request-annotation_type_err'>
           {errText}
         </p>
-        <button type='submit' className='search__button button'>
-          Загрузить
-        </button>
+        <div className='search__download'>
+          <button type='submit' className='search__button button'>
+            Загрузить
+          </button>
+          <p className='search__download-text'>
+            На сервере {numberProductsType} товаров &quot;
+            {annotationProductsType}&quot;
+          </p>
+        </div>
       </form>
     </div>
   )

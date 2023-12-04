@@ -5,9 +5,9 @@ import ThirdPartyProducts from './ColumnThirdPartyProducts/ColumnThirdPartyProdu
 export default function Main() {
   return (
     <main className='main'>
-      <ConnectedProducts />
-      <ProseptProducts />
       <ThirdPartyProducts />
+      <ProseptProducts />
+      <ConnectedProducts />
     </main>
   )
 }

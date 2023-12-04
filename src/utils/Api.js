@@ -1,6 +1,6 @@
 const URL = 'http://127.0.0.1:8000'
 const autoToken =
-  'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzAyMjM0OTU0LCJqdGkiOiI3M2MzYWNhOWJiNzY0NWExOGYyY2NiNTY4NzlmY2ZjNCIsInVzZXJfaWQiOjF9.-c05XMCEgRmObHihqa7dr9ZN_UhwEpOZmjwiwV6leVM'
+  'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzAyMjkxODA5LCJqdGkiOiJmNTNhZDk4OWFlYmQ0OGNhYWI0ZWEyMGY1NjNmODVkZCIsInVzZXJfaWQiOjF9.l30zjVz1zlZRvmjzI9F1_24pmYnYCYrlpQHws-QgEHw'
 
 const defaultHeader = {
   Authorization: autoToken,
@@ -55,4 +55,21 @@ export function getNoMatchProducts(productsNum) {
     is_matched: false,
     is_postponed: false,
   })
+}
+
+export function getProseptProducts() {
+  return fetch(`${URL}/api/product/?limit=10`, {
+    method: 'GET',
+    headers: defaultHeader,
+  }).then(handleResponse)
+}
+
+export function setProductOnHold(boolean, id){
+  return fetch(`${URL}/api/postpone/${id}/`, {
+    method: 'GET',
+    headers: defaultHeader,
+    body:{
+
+    }
+  }).then(handleResponse)
 }

@@ -1,0 +1,52 @@
+@keyframes glow {
+  0% {
+    box-shadow: 0 0 5px #38a43a;
+  }
+  100% {
+    box-shadow: 0 0 0px #38a43a;
+  }
+}
+
+.twix {
+  width: 100%;
+  height: 80px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.twix__wrapper {
+  display: flex;
+  justify-content: center;
+  column-gap: 10px;
+  height: 80px;
+  width: 60px;
+  transition: all 1s ease;
+}
+
+.twix__wrapper_deactive {
+  column-gap: 0px;
+  transform: translateY(-8px);
+}
+
+.twix__stick {
+  height: 100%;
+  width: 20%;
+  background-color: #38a43a;
+  border-radius: 5px;
+  animation: glow 2s ease-in infinite alternate;
+  transition: all 1s ease;
+}
+
+.twix__stick_type_left {
+  background-color: #000;
+  transform: rotateZ(405deg) translateX(50%) translateY(-2px);
+  animation: none;
+}
+
+.twix__stick_type_right {
+  background-color: #000;
+  transform: rotateZ(-405deg) translateX(-50%) translateY(-2px);
+  animation: none;
+}

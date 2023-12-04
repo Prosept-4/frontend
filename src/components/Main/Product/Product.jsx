@@ -1,8 +1,7 @@
-/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
-/* eslint-disable jsx-a11y/click-events-have-key-events */
 import { useState, useEffect, useRef } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { setSelectedProduct } from '../../../store/selectedThirdPartySlice'
+import { setSelectedProseptProduct } from '../../../store/selectedProseptSlice'
 
 export default function Product({ product }) {
   const selectedProduct = useSelector(
@@ -16,11 +15,11 @@ export default function Product({ product }) {
     if (!product) {
       return
     }
-    if (product.is_matched === true) {
+    if (product.is_matched) {
       setStatus('status-icon_type_connect')
-    } else if (product.has_no_matches === true) {
+    } else if (product.has_no_matches) {
       setStatus('status-icon_type_no-matches')
-    } else if (product.is_postponed === true) {
+    } else if (product.is_postponed) {
       setStatus('status-icon_type_on-hold')
     } else {
       setStatus('')
@@ -43,16 +42,24 @@ export default function Product({ product }) {
   }
 
   function handleSelect() {
+    dispatch(setSelectedProseptProduct({ product: {} }))
     dispatch(setSelectedProduct({ product }))
   }
 
   return (
     <li
-      onClick={handleSelect}
       className={`product product_type_active ${
         selectedProduct.id === product.id ? 'product_type_selected' : ''
       } `}>
-      <p className='product__company'>{product.dealer_name}</p>
+      <div className='product__header'>
+        <p className='product__company'>{product.dealer_name}</p>
+        <button
+          onClick={handleSelect}
+          className='button product__button'
+          type='button'>
+          Выбрать
+        </button>
+      </div>
       <h3 className='product__name'>{product.product_name}</h3>
       <div className='product__article-wrapper'>
         <p className='product__article'>
@@ -82,7 +89,7 @@ export default function Product({ product }) {
           Ссылка на товар
         </a>
       </div>
-      <div className='product__footer-wrapper'>
+      <div className='product__article-wrapper'>
         <div className={`status-icon ${status}`}></div>
         <p className='product__cost'>
           Цена:

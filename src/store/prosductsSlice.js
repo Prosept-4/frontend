@@ -1,11 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
 
-function setStatusOnHold(prod) {
-  prod.connect = false
-  prod.noMatches = false
-  prod.onHold = true
-}
-
 const productsSlice = createSlice({
   name: 'products',
   initialState: {
@@ -15,17 +9,16 @@ const productsSlice = createSlice({
     setProductsList(state, action) {
       state.products = action.payload.productsList
     },
-    changeStatusOnHoldProductsList(state, action) {
-      state.products = state.products.map((prod) => {
-        if (prod.id === action.payload.id) {
-          setStatusOnHold(prod)
-          return prod
-        }
-        return prod
-      })
+    deleteFromProductsListById(state, action) {
+      const newProducts = state.products.filter(
+        (prod) => prod.id !== action.payload.id
+      )
+      state.products = newProducts
+      localStorage.setItem('lastProducts', JSON.stringify(newProducts))
     },
   },
 })
 
-export const { setProductsList, changeStatusOnHoldProductsList } = productsSlice.actions
+export const { setProductsList, deleteFromProductsListById } =
+  productsSlice.actions
 export default productsSlice.reducer
