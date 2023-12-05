@@ -1,6 +1,6 @@
 const URL = 'http://127.0.0.1:8000'
 const autoToken =
-  'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzAyMjkxODA5LCJqdGkiOiJmNTNhZDk4OWFlYmQ0OGNhYWI0ZWEyMGY1NjNmODVkZCIsInVzZXJfaWQiOjF9.l30zjVz1zlZRvmjzI9F1_24pmYnYCYrlpQHws-QgEHw'
+  'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzAyMzg0MzU2LCJqdGkiOiIyNGEyMDA3NDQwZDQ0YTE0OTJiNGJiZGM2MDBiZjVkMiIsInVzZXJfaWQiOjF9.9MZH263F-3YKpcHy5HwF6R1huKikU9sRdPPdFRkRlOg'
 
 const defaultHeader = {
   Authorization: autoToken,
@@ -64,12 +64,30 @@ export function getProseptProducts() {
   }).then(handleResponse)
 }
 
-export function setProductOnHold(boolean, id){
+export function patchProductOnHold(id) {
   return fetch(`${URL}/api/postpone/${id}/`, {
-    method: 'GET',
+    method: 'PATCH',
     headers: defaultHeader,
-    body:{
+    body: JSON.stringify({ is_postponed: true }),
+  }).then(handleResponse)
+}
 
-    }
+export function patchProductNoMatch(id) {
+  return fetch(`${URL}/api/has_no_matches/${id}/`, {
+    method: 'PATCH',
+    headers: defaultHeader,
+    body: JSON.stringify({ has_no_matches: true }),
+  }).then(handleResponse)
+}
+
+export function postMatchProducts({key, dealer_id, product_id }) {
+  return fetch(`${URL}/api/match/`, {
+    method: 'POST',
+    headers: defaultHeader,
+    body: JSON.stringify({
+      key: key,
+      dealer_id: dealer_id,
+      product_id: product_id ,
+    }),
   }).then(handleResponse)
 }

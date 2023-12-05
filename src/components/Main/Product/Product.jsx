@@ -1,11 +1,12 @@
 import { useState, useEffect, useRef } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { setSelectedProduct } from '../../../store/selectedThirdPartySlice'
+import { setSelectedProduct } from '../../../store/selectedDealerSlice'
 import { setSelectedProseptProduct } from '../../../store/selectedProseptSlice'
+import { urlReg } from '../../../tools/const'
 
 export default function Product({ product }) {
   const selectedProduct = useSelector(
-    (state) => state.selectedThirdPartyReducer.product
+    (state) => state.selectedDealerReducer.product
   )
   const dispatch = useDispatch()
   const [status, setStatus] = useState('')
@@ -30,7 +31,6 @@ export default function Product({ product }) {
     return
   }
 
-  const urlReg = /^https?:/
   let articleIsLink = false
   if (urlReg.test(product.product_key)) {
     articleIsLink = true

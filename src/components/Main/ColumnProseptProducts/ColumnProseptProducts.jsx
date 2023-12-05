@@ -3,10 +3,16 @@ import { useSelector, useDispatch } from 'react-redux'
 import {
   setStatusOnHold,
   setStatusNoMatch,
-} from '../../../store/selectedThirdPartySlice.js'
+} from '../../../store/selectedDealerSlice.js'
 import { setProductsProseptList } from '../../../store/productsProseptSlice.js'
+import { deleteFromProductsListById } from '../../../store/productsDealerSlice.js'
 import ProductProsept from './Product_Prosept/ProductProsept.jsx'
-import { getProseptProducts } from '../../../utils/Api.js'
+import {
+  getProseptProducts,
+  patchProductOnHold,
+  patchProductNoMatch,
+} from '../../../utils/MainApi.js'
+import { proseptLimiter } from '../../../tools/const.js'
 
 export default function ProseptProducts() {
   const [limiterNum, setLimiterNum] = useState(3)
@@ -14,8 +20,8 @@ export default function ProseptProducts() {
   const productsListProsept = useSelector(
     (state) => state.productsProseptReducer.productsProsept
   )
-  const selectedProduct = useSelector(
-    (state) => state.selectedThirdPartyReducer.product
+  const selectedDealerProduct = useSelector(
+    (state) => state.selectedDealerReducer.product
   )
 
   useEffect(() => {
@@ -27,31 +33,40 @@ export default function ProseptProducts() {
   }, [dispatch])
 
   function changeLimiter(e) {
-    setLimiterNum(Number(e.target.value))
+    setLimiterNum(e.target.value)
   }
 
   function changeSelectedOnhold() {
-    dispatch(setStatusOnHold())
+    patchProductOnHold(selectedDealerProduct.id)
+      .then((res) => {
+        dispatch(deleteFromProductsListById({ id: res.id }))
+        dispatch(setStatusOnHold())
+      })
+      .catch()
   }
 
   function changeSelectedNoMatch() {
-    dispatch(setStatusNoMatch())
+    patchProductNoMatch(selectedDealerProduct.id)
+      .then((res) => {
+        dispatch(deleteFromProductsListById({ id: res.id }))
+        dispatch(setStatusNoMatch())
+      })
+      .catch()
   }
 
   const onHoldButtonCheck =
-    selectedProduct.id &&
-    !selectedProduct.is_postponed &&
-    !selectedProduct.is_matched
+    selectedDealerProduct.id &&
+    !selectedDealerProduct.is_postponed &&
+    !selectedDealerProduct.is_matched
   const noMatchButtonCheck =
-    selectedProduct.id &&
-    !selectedProduct.has_no_matches &&
-    !selectedProduct.is_matched
+    selectedDealerProduct.id &&
+    !selectedDealerProduct.has_no_matches &&
+    !selectedDealerProduct.is_matched
 
   return (
     <section className='column column_type_prosept-pr'>
       <h2 className='column__title'>
-        Соотнесение с товарами{' '}
-        <span className='column__title-prosept'>Prosept</span>
+        Товары <span className='column__title-prosept'>Prosept</span>
       </h2>
       <div className='column__limiter-annotatoin-wrapper'>
         <p className='column__product-annotation'>
@@ -65,18 +80,16 @@ export default function ProseptProducts() {
           <select
             onChange={changeLimiter}
             className='column__limiter sliding-menu'>
-            <option className='column__limiter-item' value='3' defaultValue>
-              3
-            </option>
-            <option className='column__limiter-item' value='5'>
-              5
-            </option>
-            <option className='column__limiter-item' value='7'>
-              7
-            </option>
-            <option className='column__limiter-item' value='10'>
-              10
-            </option>
+            {proseptLimiter.map((item) => {
+              return (
+                <option
+                  key={item}
+                  className='column__limiter-item'
+                  value={item}>
+                  {item}
+                </option>
+              )
+            })}
           </select>
         </div>
       </div>

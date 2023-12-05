@@ -5,24 +5,30 @@ import {
   getUnsortedProducts,
   getOnHoldProducts,
   getNoMatchProducts,
-} from '../../../../utils/Api'
-import { setProductsList } from '../../../../store/prosductsSlice'
+} from '../../../../utils/MainApi'
+import { setProductsList } from '../../../../store/productsDealerSlice'
+import { setSelectedProduct } from '../../../../store/selectedDealerSlice'
+import { setSelectedProseptProduct } from '../../../../store/selectedProseptSlice'
+import {
+  productTypesList,
+  dealerProductLimiterList,
+} from '../../../../tools/const'
 
 export default function Search({
   setAnnotationProductsType,
-  annotationProductsType,
+  setNumberAllProductslastLoad,
+  setNumberSessionProductslastLoad,
 }) {
   const [productsType, setProductsType] = useState('Несортированные')
   const [errText, setErrText] = useState('')
   const [productsNum, setProductsNum] = useState(50)
-  const [numberProductsType, setNumberProductsType] = useState(0)
 
   const dispatch = useDispatch()
   const filterValue = useSelector((state) => state.filterReducer.filter)
 
   useEffect(() => {
     const lastProductsList = JSON.parse(localStorage.getItem('lastProducts'))
-    if (lastProductsList === null) {
+    if (!lastProductsList) {
       return
     }
     dispatch(setProductsList({ productsList: lastProductsList }))
@@ -37,16 +43,25 @@ export default function Search({
   }
 
   function handleChangeProductsNum(e) {
-    setProductsNum(+e.target.value)
+    setProductsNum(e.target.value)
   }
 
   function getProducts(getFunction) {
     getFunction(productsNum)
       .then((res) => {
-        console.log()
-        setNumberProductsType(res.count)
         dispatch(setProductsList({ productsList: res.results }))
+        dispatch(setSelectedProduct({ product: {} }))
+        dispatch(setSelectedProseptProduct({ product: {} }))
         localStorage.setItem('lastProducts', JSON.stringify(res.results))
+        const lastSession = {
+          all: res.count,
+          session: res.results.length,
+          type: productsType,
+        }
+        localStorage.setItem('lastSession', JSON.stringify(lastSession))
+        setNumberAllProductslastLoad(res.count)
+        setAnnotationProductsType(productsType)
+        setNumberSessionProductslastLoad(res.results.length)
       })
       .catch(() => {
         setErrText('Ошибка сервера')
@@ -69,15 +84,12 @@ export default function Search({
     switch (productsType) {
       case 'Несортированные':
         getProducts(getUnsortedProducts)
-        setAnnotationProductsType(productsType)
         break
       case 'Отложенные':
         getProducts(getOnHoldProducts)
-        setAnnotationProductsType(productsType)
         break
       case 'Без совпадений':
         getProducts(getNoMatchProducts)
-        setAnnotationProductsType(productsType)
         break
     }
   }
@@ -112,43 +124,40 @@ export default function Search({
               value={productsType}
               onChange={handleChangeProductsType}
               className='search__products-types sliding-menu'>
-              <option className='search__product-type' value='Несортированные'>
-                Несортированные
-              </option>
-              <option className='search__product-type' value='Отложенные'>
-                Отложенные
-              </option>
-              <option className='search__product-type' value='Без совпадений'>
-                Без совпадений
-              </option>
+              {productTypesList.map((item, i) => {
+                return (
+                  <option
+                    key={i}
+                    className='search__product-type'
+                    value={item}>
+                    {item}
+                  </option>
+                )
+              })}
             </select>
             <select
               onChange={handleChangeProductsNum}
               className='search__product-nums sliding-menu'>
-              <option className='search__product-num' defaultValue value='50'>
-                50
-              </option>
-              <option className='search__product-num' value='100'>
-                100
-              </option>
-              <option className='search__product-num' value='200'>
-                200
-              </option>
+              {dealerProductLimiterList.map((item) => {
+                return (
+                  <option
+                    key={item}
+                    className='search__product-num'
+                    defaultValue
+                    value={item}>
+                    {item}
+                  </option>
+                )
+              })}
             </select>
           </div>
         </div>
         <p className='search__request-annotation search__request-annotation_type_err'>
           {errText}
         </p>
-        <div className='search__download'>
-          <button type='submit' className='search__button button'>
-            Загрузить
-          </button>
-          <p className='search__download-text'>
-            На сервере {numberProductsType} товаров &quot;
-            {annotationProductsType}&quot;
-          </p>
-        </div>
+        <button type='submit' className='search__button button'>
+          Загрузить
+        </button>
       </form>
     </div>
   )

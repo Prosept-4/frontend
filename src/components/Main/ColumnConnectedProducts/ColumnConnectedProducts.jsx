@@ -6,8 +6,9 @@ import ProductProseptSelected from './Product_Prosept_Selected/ProductProseptSel
 import {
   setStatusConnect,
   setStatusUnconnect,
-} from '../../../store/selectedThirdPartySlice.js'
-import { deleteFromProductsListById } from '../../../store/prosductsSlice.js'
+} from '../../../store/selectedDealerSlice.js'
+import { deleteFromProductsListById } from '../../../store/productsDealerSlice.js'
+import { postMatchProducts } from '../../../utils/MainApi.js'
 
 export default function ConnectedProducts() {
   const [windowHeight, setWindowHeight] = useState(
@@ -15,6 +16,13 @@ export default function ConnectedProducts() {
   )
   const [showTwix, setShowTwix] = useState(true)
   const dispatch = useDispatch()
+
+  const selectedProseptProduct = useSelector(
+    (state) => state.selectedProseptReducer.product
+  )
+  const selectedDealerProduct = useSelector(
+    (state) => state.selectedDealerReducer.product
+  )
 
   useEffect(() => {
     function handleWindowResizeTimeout() {
@@ -37,26 +45,27 @@ export default function ConnectedProducts() {
     }
   }, [windowHeight])
 
-  const selectedProseptProduct = useSelector(
-    (state) => state.selectedProseptReducer.product
-  )
-  const selectedProduct = useSelector(
-    (state) => state.selectedThirdPartyReducer.product
-  )
-
-  function changeSelectedConnect() {
-    dispatch(setStatusConnect())
-    dispatch(deleteFromProductsListById({ id: selectedProduct.id }))
+  function connectSelectedProducts() {
+    postMatchProducts({
+      key: selectedDealerProduct.product_key,
+      dealer_id: selectedDealerProduct.dealer_id,
+      product_id: selectedProseptProduct.id,
+    })
+      .then(() => {
+        dispatch(setStatusConnect())
+        dispatch(deleteFromProductsListById({ id: selectedDealerProduct.id }))
+      })
+      .catch()
   }
 
-  function changeSelectedUnconnect() {
+  function disconnectSelectedProducts() {
     dispatch(setStatusUnconnect())
   }
 
   const connectButtonCheck =
     selectedProseptProduct.id &&
-    selectedProduct.id &&
-    !selectedProduct.is_matched
+    selectedDealerProduct.id &&
+    !selectedDealerProduct.is_matched
 
   return (
     <section className='column column_type_connected-pr'>
@@ -82,7 +91,7 @@ export default function ConnectedProducts() {
         <li className='column__button-item'>
           <button
             type='button'
-            onClick={changeSelectedConnect}
+            onClick={connectSelectedProducts}
             disabled={connectButtonCheck ? '' : true}
             className={`column__button button ${
               connectButtonCheck ? '' : 'button_disabled'
@@ -95,10 +104,10 @@ export default function ConnectedProducts() {
         <li className='column__button-item'>
           <button
             type='button'
-            onClick={changeSelectedUnconnect}
-            disabled={selectedProduct.is_matched ? '' : true}
+            onClick={disconnectSelectedProducts}
+            disabled={selectedDealerProduct.is_matched ? '' : true}
             className={`column__button button button_color_gray ${
-              selectedProduct.is_matched ? '' : 'button_disabled'
+              selectedDealerProduct.is_matched ? '' : 'button_disabled'
             }`}>
             Отвязать
             <span className='status-icon status-icon_type_disconnect'></span>

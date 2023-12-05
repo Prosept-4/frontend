@@ -2,7 +2,7 @@ import { useSelector } from 'react-redux'
 
 export default function Twix() {
   const selectedProduct = useSelector(
-    (state) => state.selectedThirdPartyReducer.product
+    (state) => state.selectedDealerReducer.product
   )
   return (
     <article className='twix column__twix'>
@@ -11,12 +11,24 @@ export default function Twix() {
           selectedProduct.is_matched ? '' : 'twix__wrapper_deactive'
         }`}>
         <div
-          className={`twix__stick ${
-            selectedProduct.is_matched ? '' : 'twix__stick_type_left'
+          className={`twix__stick  ${
+            selectedProduct.is_matched ? '' : 'twix__stick_type_left-noconnect'
+          } ${
+            selectedProduct.has_no_matches ? 'twix__stick_type_no-match' : ''
+          }
+          ${
+            selectedProduct.is_postponed ? 'twix__stick_type_left-hold' : ''
           }`}></div>
         <div
-          className={`twix__stick ${
-            selectedProduct.is_matched ? '' : 'twix__stick_type_right'
+          className={`twix__stick  ${
+            selectedProduct.is_matched
+              ? ''
+              : 'twix__stick_type_right-noconnect'
+          } ${
+            selectedProduct.has_no_matches ? 'twix__stick_type_no-match' : ''
+          }
+          ${
+            selectedProduct.is_postponed ? 'twix__stick_type_right-hold' : ''
           }`}></div>
       </div>
     </article>

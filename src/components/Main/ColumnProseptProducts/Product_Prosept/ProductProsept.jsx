@@ -6,7 +6,7 @@ export default function ProductProsept({ product }) {
     (state) => state.selectedProseptReducer.product
   )
   const selectedProduct = useSelector(
-    (state) => state.selectedThirdPartyReducer.product
+    (state) => state.selectedDealerReducer.product
   )
   const dispatch = useDispatch()
   if (!product) {

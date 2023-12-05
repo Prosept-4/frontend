@@ -1,10 +1,10 @@
 import { createSlice } from '@reduxjs/toolkit'
 
-// function setStatusOnHold(prod) {
-//   product.connect = false
-//   product.noMatches = false
-//   product.onHold = true
-// }
+function setStatus(state, {connect, noMatches, onHold}) {
+  state.product.is_matched = connect
+  state.product.has_no_matches = noMatches
+  state.product.is_postponed = onHold
+}
 
 const selectedThirdPartySlice = createSlice({
   name: 'thirdPartySelect',
@@ -16,24 +16,16 @@ const selectedThirdPartySlice = createSlice({
       state.product = action.payload.product
     },
     setStatusOnHold(state) {
-      state.product.is_matched = false
-      state.product.has_no_matches = false
-      state.product.is_postponed = true
+      setStatus(state, {connect:false, noMatches:false, onHold:true})
     },
     setStatusNoMatch(state) {
-      state.product.is_matched = false
-      state.product.has_no_matches = true
-      state.product.is_postponed = false
+      setStatus(state, {connect:false, noMatches:true, onHold:false})
     },
     setStatusConnect(state) {
-      state.product.is_matched = true
-      state.product.has_no_matches = false
-      state.product.is_postponed = false
+      setStatus(state, {connect:true, noMatches:false, onHold:false})
     },
     setStatusUnconnect(state) {
-      state.product.is_matched = false
-      state.product.has_no_matches = false
-      state.product.is_postponed = false
+      setStatus(state, {connect:false, noMatches:false, onHold:false})
     },
   },
 })

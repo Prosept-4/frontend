@@ -102,9 +102,14 @@
   text-align: left;
 }
 
+.column__product-annotation_type_products {
+min-width: 280px;
+}
+
 .column__product-annotation_position_right {
   text-align: right;
 }
+
 .column__product-annotation-blue {
   display: inline-block;
   min-width: 30px;
