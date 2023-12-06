@@ -72,6 +72,16 @@ class Api {
       })
   }
 
+  getStatistic(token) {
+    return fetch(`${this._baseUrl}/statistic/`, {
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      }
+    })
+      .then(this._checkResponse)
+  }
+
 }
 
 const api = new Api({

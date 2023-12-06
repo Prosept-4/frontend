@@ -1,4 +1,4 @@
-FROM node:20.9.0 as dist
+FROM node:20.9.0 as build
 
 LABEL description="Procept hakathon team 4: Frontend" \
       version="1.0.0" \
