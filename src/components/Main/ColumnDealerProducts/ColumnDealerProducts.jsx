@@ -69,7 +69,6 @@ export default function DealerProducts() {
         <ul className='column__table'>
           {dealerProductsList
             .filter((product) => checkName(product, filterValue))
-            .reverse()
             .map((product) => {
               return <Product key={product.id} product={product} />
             })}

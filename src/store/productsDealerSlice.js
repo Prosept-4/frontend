@@ -1,5 +1,17 @@
 import { createSlice } from '@reduxjs/toolkit'
 
+function changeDisconnectedProduct(product) {
+  let newProd = {}
+  for (let key in product) {
+    if (key === 'is_matched') {
+      newProd[key] = false
+    } else {
+      newProd[key] = product[key]
+    }
+  }
+  return newProd
+}
+
 const productsSlice = createSlice({
   name: 'products',
   initialState: {
@@ -16,9 +28,16 @@ const productsSlice = createSlice({
       state.products = newProducts
       localStorage.setItem('lastProducts', JSON.stringify(newProducts))
     },
+    addProductToProductsList(state, action) {
+      state.products = [changeDisconnectedProduct(action.payload.product), ...state.products]
+      localStorage.setItem('lastProducts', JSON.stringify(state.products))
+    },
   },
 })
 
-export const { setProductsList, deleteFromProductsListById } =
-  productsSlice.actions
+export const {
+  setProductsList,
+  deleteFromProductsListById,
+  addProductToProductsList,
+} = productsSlice.actions
 export default productsSlice.reducer

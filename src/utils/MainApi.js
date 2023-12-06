@@ -1,6 +1,6 @@
 const URL = 'http://127.0.0.1:8000'
 const autoToken =
-  'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzAyMzg0MzU2LCJqdGkiOiIyNGEyMDA3NDQwZDQ0YTE0OTJiNGJiZGM2MDBiZjVkMiIsInVzZXJfaWQiOjF9.9MZH263F-3YKpcHy5HwF6R1huKikU9sRdPPdFRkRlOg'
+  'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzAyNDc0ODE1LCJqdGkiOiI4MThmMjE2YzYwOWY0MzQ2ODEzZWUzMGFkODc2NDBlNCIsInVzZXJfaWQiOjF9.6zkF4CMZEoA14AQLUOI2JiYsDnBiCw_A2UaK7OGMOSM'
 
 const defaultHeader = {
   Authorization: autoToken,
@@ -80,14 +80,26 @@ export function patchProductNoMatch(id) {
   }).then(handleResponse)
 }
 
-export function postMatchProducts({key, dealer_id, product_id }) {
+export function postMatchProducts({ key, dealer_id, product_id }) {
   return fetch(`${URL}/api/match/`, {
     method: 'POST',
     headers: defaultHeader,
     body: JSON.stringify({
       key: key,
       dealer_id: dealer_id,
-      product_id: product_id ,
+      product_id: product_id,
     }),
   }).then(handleResponse)
+}
+
+export function deleteMatch(id) {
+  return fetch(`${URL}/api/match/${id}/`, {
+    method: 'DELETE',
+    headers: defaultHeader,
+  }).then((res) => {
+    if (res.ok) {
+      return res
+    }
+    return Promise.reject(`Ошибка: ${res.status}`)
+  })
 }

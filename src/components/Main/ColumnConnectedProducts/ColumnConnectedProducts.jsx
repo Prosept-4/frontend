@@ -7,14 +7,18 @@ import {
   setStatusConnect,
   setStatusUnconnect,
 } from '../../../store/selectedDealerSlice.js'
-import { deleteFromProductsListById } from '../../../store/productsDealerSlice.js'
-import { postMatchProducts } from '../../../utils/MainApi.js'
+import {
+  deleteFromProductsListById,
+  addProductToProductsList,
+} from '../../../store/productsDealerSlice.js'
+import { postMatchProducts, deleteMatch } from '../../../utils/MainApi.js'
 
 export default function ConnectedProducts() {
   const [windowHeight, setWindowHeight] = useState(
     document.documentElement.clientHeight
   )
   const [showTwix, setShowTwix] = useState(true)
+  const [matchId, setMatchId] = useState(0)
   const dispatch = useDispatch()
 
   const selectedProseptProduct = useSelector(
@@ -51,7 +55,8 @@ export default function ConnectedProducts() {
       dealer_id: selectedDealerProduct.dealer_id,
       product_id: selectedProseptProduct.id,
     })
-      .then(() => {
+      .then((res) => {
+        setMatchId(res.match_id)
         dispatch(setStatusConnect())
         dispatch(deleteFromProductsListById({ id: selectedDealerProduct.id }))
       })
@@ -59,7 +64,12 @@ export default function ConnectedProducts() {
   }
 
   function disconnectSelectedProducts() {
-    dispatch(setStatusUnconnect())
+    deleteMatch(matchId)
+      .then(() => {
+        dispatch(setStatusUnconnect())
+        dispatch(addProductToProductsList({ product: selectedDealerProduct }))
+      })
+      .catch()
   }
 
   const connectButtonCheck =
