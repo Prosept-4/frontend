@@ -30,7 +30,9 @@
 }
 
 .header__button_active {
-  display: none;
+  cursor: default;
+  background: #38A43A;
+  color: #fff;
 }
 
 .header__button:hover {
