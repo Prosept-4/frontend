@@ -8,9 +8,7 @@ import api from '../../utils/Api'
 import {useEffect, useState} from "react";
 import ProtectedRoute from '../ProtectedRoute/ProtectedRoute.jsx';
 import Popup from "../Popup/Popup.jsx";
-
-
-
+import Statistic from "../Statistic/Statistic.jsx";
 
 function App() {
   const navigate = useNavigate();
@@ -25,6 +23,22 @@ function App() {
   const [currentPage, setCurrentPage] = useState(1);
   const maxPage = Math.ceil(matchedItems.count/10)
 
+  const [statisticData, setStatisticData] = useState({});
+
+  function getStatistic(token) {
+    setLoaderOpen(true)
+
+    api.getStatistic(token)
+      .then((res) => {
+        setStatisticData(res)
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+      .finally(() => {
+        setLoaderOpen(false)
+      })
+  }
 
   function getMatchedItems(token) {
     setLoaderOpen(true)
@@ -123,6 +137,7 @@ function App() {
 
   useEffect(() => {
     handleTokenCheck();
+    getStatistic(localStorage.getItem('token'));
   }, []);
 
   useEffect(() => {
@@ -164,6 +179,17 @@ function App() {
               deleteMatchedItems={deleteMatchedItems}
               setPopupOpen={setPopupOpen}
               setPopupData={setPopupData}
+            />
+          }
+        />
+
+        <Route
+          path="/stats"
+          element={
+            <ProtectedRoute
+              isLoggedIn={isLoggedIn}
+              element={Statistic}
+              data={statisticData}
             />
           }
         />

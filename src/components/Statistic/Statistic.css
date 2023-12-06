@@ -1,0 +1,39 @@
+.statistic {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  padding-top: 100px;
+  gap: 20px;
+}
+
+.statistic__title {
+  margin: 0;
+  font-size: 36px;
+  color: #38A43A;
+}
+
+.statistic__container {
+  display: flex;
+  flex-direction: column;
+  padding: 30px;
+  border: 2px #38A43A solid;
+  border-radius: 25px;
+  gap: 30px;
+}
+
+.statistic__name {
+  margin: 0;
+  font-size: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 5px;
+  border-bottom: 2px #38A43A solid;
+}
+
+.statistic__value {
+  font-weight: bold;
+  color: #38A43A;
+  margin-left: 30px;
+}
