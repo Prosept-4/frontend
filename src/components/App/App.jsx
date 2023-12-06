@@ -142,7 +142,7 @@ function App() {
 
   useEffect(() => {
     getMatchedItems(localStorage.getItem('token'));
-  }, [currentPage]);
+  }, [currentPage, isLoggedIn]);
 
   return (
     <div className='page'>
@@ -198,9 +198,6 @@ function App() {
           path="*"
           element={<Navigate to="/auth" />}
         />
-
-        {/*TODO: Stats*/}
-        {/*TODO: Table*/}
       </Routes>
       <Popup
         setOpen={setPopupOpen}
