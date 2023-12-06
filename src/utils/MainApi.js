@@ -1,10 +1,10 @@
 const URL = 'http://127.0.0.1:8000'
-const autoToken =
-  'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzAyNDc0ODE1LCJqdGkiOiI4MThmMjE2YzYwOWY0MzQ2ODEzZWUzMGFkODc2NDBlNCIsInVzZXJfaWQiOjF9.6zkF4CMZEoA14AQLUOI2JiYsDnBiCw_A2UaK7OGMOSM'
 
-const defaultHeader = {
-  Authorization: autoToken,
-  'Content-Type': 'application/json',
+function defaultHeader() {
+  return {
+    Authorization: `Bearer ${localStorage.getItem('token')}`,
+    'Content-Type': 'application/json',
+  }
 }
 
 function handleResponse(res) {
@@ -28,7 +28,7 @@ function getProducts(
       }),
     {
       method: 'GET',
-      headers: defaultHeader,
+      headers: defaultHeader(),
     }
   ).then(handleResponse)
 }
@@ -60,14 +60,14 @@ export function getNoMatchProducts(productsNum) {
 export function getProseptProducts() {
   return fetch(`${URL}/api/product/?limit=10`, {
     method: 'GET',
-    headers: defaultHeader,
+    headers: defaultHeader(),
   }).then(handleResponse)
 }
 
 export function patchProductOnHold(id) {
   return fetch(`${URL}/api/postpone/${id}/`, {
     method: 'PATCH',
-    headers: defaultHeader,
+    headers: defaultHeader(),
     body: JSON.stringify({ is_postponed: true }),
   }).then(handleResponse)
 }
@@ -75,7 +75,7 @@ export function patchProductOnHold(id) {
 export function patchProductNoMatch(id) {
   return fetch(`${URL}/api/has_no_matches/${id}/`, {
     method: 'PATCH',
-    headers: defaultHeader,
+    headers: defaultHeader(),
     body: JSON.stringify({ has_no_matches: true }),
   }).then(handleResponse)
 }
@@ -83,7 +83,7 @@ export function patchProductNoMatch(id) {
 export function postMatchProducts({ key, dealer_id, product_id }) {
   return fetch(`${URL}/api/match/`, {
     method: 'POST',
-    headers: defaultHeader,
+    headers: defaultHeader(),
     body: JSON.stringify({
       key: key,
       dealer_id: dealer_id,
@@ -95,7 +95,7 @@ export function postMatchProducts({ key, dealer_id, product_id }) {
 export function deleteMatch(id) {
   return fetch(`${URL}/api/match/${id}/`, {
     method: 'DELETE',
-    headers: defaultHeader,
+    headers: defaultHeader(),
   }).then((res) => {
     if (res.ok) {
       return res
