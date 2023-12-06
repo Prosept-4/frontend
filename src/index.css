@@ -12,4 +12,6 @@
 @import url('./components/Main/Product/Product.css');
 @import url('./components/Table/Table.css');
 @import url('./components/Position/Position.css');
-
+@import url('./components/PageButton/PageButton.css');
+@import url('./components/Popup/Popup.css');
+@import url('./components/Loader/Loader.css');

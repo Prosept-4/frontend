@@ -1,6 +1,5 @@
 .table {
   box-sizing: border-box;
-  padding-bottom: 40px;
 }
 
 .table__headers {
@@ -24,6 +23,71 @@
 .table__list {
   display: flex;
   flex-direction: column;
-  gap: 40px;
+  gap: 20px;
   padding-top: 25px;
+}
+
+.table__nav {
+  display: flex;
+  justify-content: center;
+  box-sizing: border-box;
+  padding: 30px 0;
+}
+
+.table__button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: 0.2s;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 5px 10px;
+}
+
+.table__button:last-child .table__icon {
+  transform: rotate(180deg);
+}
+
+.table__button:hover {
+  background: #38A43A;
+  color: #fff;
+}
+
+.table__button:hover .table__icon{
+  fill: white;
+}
+
+.table__button_disabled {
+  cursor: default;
+  background: rgba(56, 164, 58, 0.15);
+}
+
+.table__button_disabled:hover {
+  background: rgba(56, 164, 58, 0.15);
+  color: #000;
+}
+
+.table__button_disabled:hover .table__icon{
+  fill: black;
+}
+
+.table__button:first-child {
+  border-left: 2px #38A43A solid;
+  border-top: 2px #38A43A solid;
+  border-bottom: 2px #38A43A solid;
+  border-radius: 10px 0 0 10px;
+}
+
+.table__button:last-child {
+  border-right: 2px #38A43A solid;
+  border-top: 2px #38A43A solid;
+  border-bottom: 2px #38A43A solid;
+  border-radius: 0 10px 10px 0;
+}
+
+.table__icon {
+  width: 20px;
+  height: 20px;
+  transition: 0.2s;
 }

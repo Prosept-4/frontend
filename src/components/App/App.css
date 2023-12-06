@@ -3,7 +3,4 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
-  display: flex;
-  flex-direction: column;
-  height: 100vh;
 }
