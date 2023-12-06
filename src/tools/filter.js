@@ -1,5 +1,5 @@
-function checkName({ name }, inputValue) {
-  const nameCheck = name
+function checkName({ product_name }, inputValue) {
+  const nameCheck = product_name
     .toLowerCase()
     .replace(/[^а-яёa-z0-9]/gi, '')
     .replace(/ё/gi, 'е')

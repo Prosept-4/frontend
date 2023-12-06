@@ -2,7 +2,12 @@ import { useSelector, useDispatch } from 'react-redux'
 import { setSelectedProseptProduct } from '../../../../store/selectedProseptSlice'
 
 export default function ProductProsept({ product }) {
-  const selectedProduct = useSelector((state) => state.selectedProseptReducer.product)
+  const selectedProseptProduct = useSelector(
+    (state) => state.selectedProseptReducer.product
+  )
+  const selectedProduct = useSelector(
+    (state) => state.selectedDealerReducer.product
+  )
   const dispatch = useDispatch()
   if (!product) {
     return
@@ -12,19 +17,38 @@ export default function ProductProsept({ product }) {
     dispatch(setSelectedProseptProduct({ product }))
   }
 
+  console.log()
+
   return (
-    <li className='column__table-item'>
-      <button
-        onClick={handleSelect}
-        className={`product product_type_active ${
-          selectedProduct.id === product.id ? 'product_type_selected' : ''
-        } `}>
-        <p className='product__company product__company_type_prosept'>{product.company}</p>
-        <h3 className='product__name'>{product.name}</h3>
-        <p className='product__cost'>
-          Цена: <span className='product__cost-money'>{`${product.cost} ₽`}</span>{' '}
+    <li
+      className={`product product_type_active ${
+        selectedProseptProduct.id === product.id ? 'product_type_selected' : ''
+      } `}>
+      <div className='product__header'>
+        <p className='product__company product__company_type_prosept'>
+          Prosept
         </p>
-      </button>
+        <button
+          disabled={!selectedProduct.is_matched ? '' : true}
+          onClick={handleSelect}
+          className={`button product__button ${
+            !selectedProduct.is_matched ? '' : 'button_disabled'
+          }`}
+          type='button'>
+          Выбрать
+        </button>
+      </div>
+      <h3 className='product__name'>{product.name}</h3>
+      <div className='product__article-wrapper'>
+        <p className='product__article'>
+          Артикул:{' '}
+          <span className='product__article-item'>{product.article}</span>
+        </p>
+        <p className='product__cost'>
+          Рекомендованная цена:{' '}
+          <span className='product__cost-money'>{`${product.recommended_price} ₽`}</span>{' '}
+        </p>
+      </div>
     </li>
   )
 }

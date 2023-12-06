@@ -1,0 +1,121 @@
+.search {
+  background-color: #fff;
+  border-radius: 10px;
+  min-width: 490px;
+  box-sizing: border-box;
+  min-height: 100px;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  box-shadow: inset 0 0 5px rgb(109, 109, 109);
+  margin: 5px 0 0 0;
+}
+
+.search__inside-wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 34%;
+  width: 100%;
+  border-right: #8b8b8b solid 1px;
+  padding: 8px;
+}
+
+.search__button {
+  max-width: 150px;
+  margin: 0;
+  font-size: 15px;
+}
+
+.search__input-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.search__input {
+  max-width: 120px;
+  width: 100%;
+  border: none;
+  border-bottom: 1px solid #000;
+  font-size: 15px;
+}
+.search__input:focus {
+  outline: none;
+}
+
+.search__input:-webkit-autofill,
+.search__input:-webkit-autofill:focus {
+  transition: background-color 0s 600000s, color 0s 600000s;
+}
+
+.search__input::placeholder {
+  color: #8b8b8b;
+  font-size: 15px;
+  font-style: normal;
+  font-weight: 400;
+}
+
+.search__img {
+  display: inline-block;
+  background-image: url(../../../../images/main/search_icon1_green.svg);
+  background-position: center;
+  background-size: 15px 15px;
+  background-repeat: no-repeat;
+  background-color: transparent;
+  box-sizing: border-box;
+  min-height: 25px;
+  min-width: 25px;
+}
+
+.search__request-form {
+  width: 66%;
+  padding: 8px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.search__request-wrapper {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.search__request-annotation {
+  min-height: 15px;
+  max-width: 100%;
+  margin: 0;
+  font-size: 13px;
+  text-align: center;
+}
+
+.search__request-annotation_type_err {
+  color: red;
+}
+
+.search__products-wrapper {
+  margin-top: 3px;
+  display: flex;
+  width: 100%;
+  column-gap: 10px;
+  justify-content: center;
+}
+
+.search__download {
+  display: flex;
+  width: 100%;
+  column-gap: 10px;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.search__download-text {
+  min-height: 15px;
+  max-width: 100%;
+  margin: 0;
+  font-size: 12px;
+  text-align: center;
+}

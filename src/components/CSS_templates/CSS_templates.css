@@ -7,6 +7,8 @@
   font-size: 13px;
   cursor: pointer;
   transition: all 0.2s;
+  overflow: hidden;
+  max-width: 100%;
 }
 
 .sliding-menu:focus {
@@ -26,8 +28,14 @@
   border: #38a43a solid 2px;
   background-color: transparent;
   color: #000;
-  transition: all 0.2s;
+  transition: background-color 0.2s;
   line-height: 20px;
+  padding: 0px 4px 0px 4px;
+}
+
+.button:active {
+  color: #fff;
+  box-shadow: 0 0 10px #38a43a;
 }
 
 .button:hover {
@@ -38,22 +46,25 @@
 .button_color_red {
   border: rgba(131, 4, 4) solid 2px;
 }
+
 .button_color_red:hover {
   background-color: rgba(131, 4, 4);
+}
+
+.button_color_red:active {
+  box-shadow: 0 0 10px rgba(131, 4, 4);
 }
 
 .button_color_gray {
   border: rgb(0, 0, 0) solid 2px;
 }
-.button_color_gray:hover {
-  background-color: rgb(192, 192, 192);
+
+.button_color_gray:active {
+  box-shadow: 0 0 10px rgb(0, 0, 0);
 }
 
-.button:active,
-.button_color_red:active,
-.button_color_gray:active {
-  color: #fff;
-  background-color: rgba(0, 183, 234, 1);
+.button_color_gray:hover {
+  background-color: rgb(192, 192, 192);
 }
 
 .button_disabled {
@@ -67,12 +78,15 @@
   background-color: transparent;
   color: rgb(192, 192, 192);
   cursor: auto;
+  box-shadow: none;
 }
 
 .status-icon {
   display: inline-block;
-  width: 18px;
-  height: 18px;
+  width: 16px;
+  min-width: 16px;
+  height: 16px;
+  min-height: 16px;
   background-position: center;
   background-repeat: no-repeat;
   background-size: contain;
