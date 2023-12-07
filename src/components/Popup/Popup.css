@@ -48,7 +48,7 @@
   text-align: center;
 }
 
-.popup__button {
+.popup__close-button {
   position: absolute;
   left: 10px;
   top: 10px;
@@ -58,7 +58,7 @@
   cursor: pointer;
 }
 
-.popup__button:hover .popup__icon g g{
+.popup__close-button:hover .popup__icon g g{
   fill: #38A43A;
 }
 

@@ -36,19 +36,23 @@
   display: flex;
   justify-content: space-between;
   border-top: 2px #38A43A solid;
-  padding-top: 5px;
+  padding-top: 10px;
 }
 
-.position__key {
-  cursor: pointer;
-  transition: 0.2s;
+.position__article {
   background: none;
   border: none;
   padding: 0;
+  cursor: pointer;
+  transition: 0.2s;
 }
 
-.position__key:hover {
+.position__article:hover {
   color: #38A43A;
+}
+
+.position__price {
+  margin: 0;
 }
 
 .position__link {
@@ -58,7 +62,7 @@
 }
 
 .position__link:hover {
-  transform: scale(0.9);
+  color: #000;
 }
 
 .position__button-main {
