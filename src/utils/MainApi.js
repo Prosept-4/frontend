@@ -1,4 +1,8 @@
-import { URL } from "../tools/const"
+import { DEV_URL } from '../tools/const'
+
+const { NODE_ENV, REACT_APP_BASE_URL } = process.env
+
+const BASE_URL = NODE_ENV === 'production' ? REACT_APP_BASE_URL : DEV_URL
 
 function defaultHeader() {
   return {
@@ -19,7 +23,7 @@ function getProducts(
   { has_no_matches, is_matched, is_postponed }
 ) {
   return fetch(
-    `${URL}/dealer-products/?` +
+    `${BASE_URL}/dealer-products/?` +
       new URLSearchParams({
         has_no_matches: has_no_matches,
         is_matched: is_matched,
@@ -58,14 +62,14 @@ export function getNoMatchProducts(productsNum) {
 }
 
 export function getProseptProducts() {
-  return fetch(`${URL}/product/?limit=10`, {
+  return fetch(`${BASE_URL}/product/?limit=10`, {
     method: 'GET',
     headers: defaultHeader(),
   }).then(handleResponse)
 }
 
 export function patchProductOnHold(id) {
-  return fetch(`${URL}/postpone/${id}/`, {
+  return fetch(`${BASE_URL}/postpone/${id}/`, {
     method: 'PATCH',
     headers: defaultHeader(),
     body: JSON.stringify({ is_postponed: true }),
@@ -73,7 +77,7 @@ export function patchProductOnHold(id) {
 }
 
 export function patchProductNoMatch(id) {
-  return fetch(`${URL}/has_no_matches/${id}/`, {
+  return fetch(`${BASE_URL}/has_no_matches/${id}/`, {
     method: 'PATCH',
     headers: defaultHeader(),
     body: JSON.stringify({ has_no_matches: true }),
@@ -81,7 +85,7 @@ export function patchProductNoMatch(id) {
 }
 
 export function postMatchProducts({ key, dealer_id, product_id }) {
-  return fetch(`${URL}/match/`, {
+  return fetch(`${BASE_URL}/match/`, {
     method: 'POST',
     headers: defaultHeader(),
     body: JSON.stringify({
@@ -93,7 +97,7 @@ export function postMatchProducts({ key, dealer_id, product_id }) {
 }
 
 export function deleteMatch(id) {
-  return fetch(`${URL}/match/${id}/`, {
+  return fetch(`${BASE_URL}/match/${id}/`, {
     method: 'DELETE',
     headers: defaultHeader(),
   }).then((res) => {
@@ -106,9 +110,10 @@ export function deleteMatch(id) {
 
 export function getProseptProductByText(text) {
   return fetch(
-    `${URL}/product/?` +
+    `${BASE_URL}/product/?` +
       new URLSearchParams({
-        name: text,
+        name_1c: text,
+        limit: 999,
       }),
     {
       method: 'GET',
@@ -118,13 +123,26 @@ export function getProseptProductByText(text) {
 }
 
 export function getAnalyze() {
-  return fetch(`${URL}/analyze/`, {
+  return fetch(`${BASE_URL}/analyze/`, {
     method: 'get',
     headers: defaultHeader(),
   }).then((res) => {
     if (res.ok) {
       return res
     }
-    return Promise.reject(`Ошибка: ${res}`)
+    return Promise.reject(res.status)
   })
+}
+
+export function getPredictions(id) {
+  return fetch(
+    `${BASE_URL}/predictions/?` +
+      new URLSearchParams({
+        dealer_product_id: id,
+      }),
+    {
+      method: 'GET',
+      headers: defaultHeader(),
+    }
+  ).then(handleResponse)
 }

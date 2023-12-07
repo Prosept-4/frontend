@@ -21,9 +21,10 @@ export default function Search({
   setNumberAllProductslastLoad,
   setNumberSessionProductslastLoad,
   setIsLoadingProductsList,
+  setErrText,
+  errText,
 }) {
   const [productsType, setProductsType] = useState('Несортированные')
-  const [errText, setErrText] = useState('')
   const [errTextAnalyze, setErrTextAnalyze] = useState('')
   const [errTextAnalyzeColor, setErrTextAnalyzeColor] = useState('')
   const [productsNum, setProductsNum] = useState(50)
@@ -105,10 +106,16 @@ export default function Search({
         setErrTextAnalyze('Анализ успешно начался')
         setErrTextAnalyzeColor('search__request-annotation_color_green')
       })
-      .catch(() => {
-        setOkButtonVisability(true)
-        setErrTextAnalyze('Ошибка начала анализа')
-        setErrTextAnalyzeColor('search__request-annotation_color_red')
+      .catch((err) => {
+        if (err === 400) {
+          setOkButtonVisability(true)
+          setErrTextAnalyze('Анализ в процессе')
+          setErrTextAnalyzeColor('search__request-annotation_color_red')
+        } else {
+          setOkButtonVisability(true)
+          setErrTextAnalyze('Ошибка начала анализа')
+          setErrTextAnalyzeColor('search__request-annotation_color_red')
+        }
       })
       .finally(() => {
         setIsLoading(false)

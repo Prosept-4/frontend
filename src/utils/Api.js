@@ -1,4 +1,8 @@
-import { URL } from '../tools/const'
+import { DEV_URL } from '../tools/const'
+
+const { NODE_ENV, REACT_APP_BASE_URL } = process.env
+
+const BASE_URL = NODE_ENV === 'production' ? REACT_APP_BASE_URL : DEV_URL
 
 class Api {
   constructor(options) {
@@ -71,7 +75,7 @@ class Api {
 }
 
 const api = new Api({
-  baseUrl: URL,
+  baseUrl: BASE_URL,
   headers: {
     'Content-Type': 'application/json',
   },

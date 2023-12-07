@@ -5,20 +5,20 @@ import {
   setStatusNoMatch,
 } from '../../../store/selectedDealerSlice.js'
 import SearchProsept from './Search_Prosept/SearchProsept.jsx'
-import { setProductsProseptList } from '../../../store/productsProseptSlice.js'
 import { deleteFromProductsListById } from '../../../store/productsDealerSlice.js'
 import ProductProsept from './Product_Prosept/ProductProsept.jsx'
 import LoaderProducts from '../Loader/Loader_products.jsx'
 import {
-  getProseptProducts,
   patchProductOnHold,
   patchProductNoMatch,
 } from '../../../utils/MainApi.js'
 import { proseptLimiter } from '../../../tools/const.js'
+import { setProseptErr } from '../../../store/errColumnProsept.js'
 
 export default function ProseptProducts() {
   const [limiterNum, setLimiterNum] = useState(3)
   const dispatch = useDispatch()
+
   const productsListProsept = useSelector(
     (state) => state.productsProseptReducer.productsProsept
   )
@@ -29,14 +29,6 @@ export default function ProseptProducts() {
   const proseptLoader = useSelector(
     (state) => state.loaderProseptReducer.loader
   )
-
-  useEffect(() => {
-    getProseptProducts()
-      .then((res) => {
-        dispatch(setProductsProseptList({ productsList: res.results }))
-      })
-      .catch()
-  }, [dispatch])
 
   useEffect(() => {
     const lastProseptLimiter = Number(localStorage.getItem('ProseptLimiter'))
@@ -57,7 +49,14 @@ export default function ProseptProducts() {
         dispatch(deleteFromProductsListById({ id: res.id }))
         dispatch(setStatusOnHold())
       })
-      .catch()
+      .catch(() => {
+        dispatch(setProseptErr({ err: 'Ошибка сервера' }))
+      })
+      .finally(() => {
+        setTimeout(() => {
+          dispatch(setProseptErr({ err: '' }))
+        }, '5000')
+      })
   }
 
   function changeSelectedNoMatch() {
@@ -66,7 +65,14 @@ export default function ProseptProducts() {
         dispatch(deleteFromProductsListById({ id: res.id }))
         dispatch(setStatusNoMatch())
       })
-      .catch()
+      .catch(() => {
+        dispatch(setProseptErr({ err: 'Ошибка сервера' }))
+      })
+      .finally(() => {
+        setTimeout(() => {
+          dispatch(setProseptErr({ err: '' }))
+        }, '5000')
+      })
   }
 
   const onHoldButtonCheck =

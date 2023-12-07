@@ -3,8 +3,11 @@ import { useSelector, useDispatch } from 'react-redux'
 import { setSelectedProduct } from '../../../store/selectedDealerSlice'
 import { setSelectedProseptProduct } from '../../../store/selectedProseptSlice'
 import { urlReg } from '../../../tools/const'
+import { getPredictions } from '../../../utils/MainApi'
+import { setProductsProseptList } from '../../../store/productsProseptSlice'
+import { activateLoader, deactivateLoader } from '../../../store/loaderProsept'
 
-export default function Product({ product }) {
+export default function Product({ product, setErrText }) {
   const selectedProduct = useSelector(
     (state) => state.selectedDealerReducer.product
   )
@@ -43,7 +46,21 @@ export default function Product({ product }) {
 
   function handleSelect() {
     dispatch(setSelectedProseptProduct({ product: {} }))
-    dispatch(setSelectedProduct({ product }))
+    dispatch(activateLoader())
+    getPredictions(product.product_key)
+      .then((res) => {
+        dispatch(setSelectedProduct({ product }))
+        dispatch(setProductsProseptList({ productsList: res.results }))
+      })
+      .catch(() => {
+        setErrText('Ошибка сервера')
+      })
+      .finally(() => {
+        dispatch(deactivateLoader())
+        setTimeout(() => {
+          setErrText('')
+        }, '5000')
+      })
   }
 
   return (

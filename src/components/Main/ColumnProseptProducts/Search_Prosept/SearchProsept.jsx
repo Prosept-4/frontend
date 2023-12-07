@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { setProductsProseptList } from '../../../../store/productsProseptSlice'
 import { setSelectedProseptProduct } from '../../../../store/selectedProseptSlice'
 import { getProseptProductByText } from '../../../../utils/MainApi'
@@ -7,21 +7,27 @@ import {
   activateLoader,
   deactivateLoader,
 } from '../../../../store/loaderProsept'
+import { setProseptErr } from '../../../../store/errColumnProsept'
 
 export default function SearchProsept() {
-  const [errMessage, setErrMessage] = useState('')
   const [searchText, setSearchText] = useState('')
   const dispatch = useDispatch()
 
+  const errorMessageProsept = useSelector(
+    (state) => state.errColumnProseptReducer.err
+  )
+
   function handleSearchProsept(e) {
     e.preventDefault()
-    setErrMessage('')
+    dispatch(setProseptErr({ err: '' }))
     dispatch(setProductsProseptList({ productsList: [] }))
     dispatch(setSelectedProseptProduct({ product: {} }))
     if (searchText.length === 0) {
-      setErrMessage('Ведите ключевое слово, минимум 1 символ')
+      dispatch(
+        setProseptErr({ err: 'Ведите ключевое слово, минимум 1 символ' })
+      )
       setTimeout(() => {
-        setErrMessage('')
+        dispatch(setProseptErr({ err: '' }))
       }, '5000')
       return
     }
@@ -30,16 +36,16 @@ export default function SearchProsept() {
       .then((res) => {
         dispatch(setProductsProseptList({ productsList: res.results }))
         if (res.results.length === 0) {
-          setErrMessage('По вашему запросу ничего не найдено')
+          setProseptErr({ err: 'По вашему запросу ничего не найдено' })
         }
       })
       .catch(() => {
-        setErrMessage('Ошибка сервера')
+        setProseptErr({ err: 'Ошибка сервера' })
       })
       .finally(() => {
         dispatch(deactivateLoader())
         setTimeout(() => {
-          setErrMessage('')
+          dispatch(setProseptErr({ err: '' }))
         }, '5000')
       })
   }
@@ -64,7 +70,7 @@ export default function SearchProsept() {
         </button>
       </form>
       <p className='search__request-annotation search__request-annotation_type_err'>
-        {errMessage}
+        {errorMessageProsept}
       </p>
     </div>
   )

@@ -5,6 +5,7 @@ import Search from './Search/Search.jsx'
 import LoaderProducts from '../Loader/Loader_products.jsx'
 
 export default function DealerProducts() {
+  const [errText, setErrText] = useState('')
   const [annotationProductsType, setAnnotationProductsType] = useState('')
   const [numberAllProductslastLoad, setNumberAllProductslastLoad] = useState(0)
   const [numberSessionProductslastLoad, setNumberSessionProductslastLoad] =
@@ -30,16 +31,12 @@ export default function DealerProducts() {
     numberSessionProductslastLoad +
     dealerProductsList.length
 
-  console.log(
-    numberAllProductslastLoad,
-    numberSessionProductslastLoad,
-    dealerProductsList.length
-  )
-
   return (
     <section className='column column_type_third-party-pr'>
       <h2 className='column__title'>Товары дилеров</h2>
       <Search
+        setErrText={setErrText}
+        errText={errText}
         setAnnotationProductsType={setAnnotationProductsType}
         setNumberAllProductslastLoad={setNumberAllProductslastLoad}
         setNumberSessionProductslastLoad={setNumberSessionProductslastLoad}
@@ -68,11 +65,13 @@ export default function DealerProducts() {
       </div>
       <div className='column__table-wrapper'>
         {isLoadingProductsList && <LoaderProducts />}
-        {!isLoadingProductsList && <ul className='column__table'>
-          {dealerProductsList.map((product) => {
-            return <Product key={product.id} product={product} />
-          })}
-        </ul>}
+        {!isLoadingProductsList && (
+          <ul className='column__table'>
+            {dealerProductsList.map((product) => {
+              return <Product key={product.id} product={product} setErrText={setErrText} />
+            })}
+          </ul>
+        )}
       </div>
     </section>
   )
