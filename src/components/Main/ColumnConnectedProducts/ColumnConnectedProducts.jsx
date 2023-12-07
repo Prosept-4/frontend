@@ -11,6 +11,7 @@ import {
   deleteFromProductsListById,
   addProductToProductsList,
 } from '../../../store/productsDealerSlice.js'
+import { setProseptErr } from '../../../store/errColumnProsept.js'
 import { postMatchProducts, deleteMatch } from '../../../utils/MainApi.js'
 
 export default function ConnectedProducts() {
@@ -50,17 +51,27 @@ export default function ConnectedProducts() {
   }, [windowHeight])
 
   function connectSelectedProducts() {
+    console.log('product_key', selectedDealerProduct.product_key)
+    console.log('dealer_id', selectedDealerProduct.dealer_id)
+    console.log('id_product', selectedProseptProduct.id_product)
     postMatchProducts({
       key: selectedDealerProduct.product_key,
       dealer_id: selectedDealerProduct.dealer_id,
-      product_id: selectedProseptProduct.id,
+      product_id: selectedProseptProduct.id_product,
     })
       .then((res) => {
-        setMatchId(res.match_id)
+        setMatchId(res.id)
         dispatch(setStatusConnect())
         dispatch(deleteFromProductsListById({ id: selectedDealerProduct.id }))
       })
-      .catch()
+      .catch(() => {
+        dispatch(setProseptErr({ err: 'Ошибка сервера' }))
+      })
+      .finally(() => {
+        setTimeout(() => {
+          dispatch(setProseptErr({ err: '' }))
+        }, '5000')
+      })
   }
 
   function disconnectSelectedProducts() {
@@ -69,7 +80,14 @@ export default function ConnectedProducts() {
         dispatch(setStatusUnconnect())
         dispatch(addProductToProductsList({ product: selectedDealerProduct }))
       })
-      .catch()
+      .catch(() => {
+        dispatch(setProseptErr({ err: 'Ошибка сервера' }))
+      })
+      .finally(() => {
+        setTimeout(() => {
+          dispatch(setProseptErr({ err: '' }))
+        }, '5000')
+      })
   }
 
   const connectButtonCheck =

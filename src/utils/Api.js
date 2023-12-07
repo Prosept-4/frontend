@@ -1,15 +1,21 @@
+import { DEV_URL } from '../tools/const'
+
+const { NODE_ENV, REACT_APP_BASE_URL } = process.env
+
+const BASE_URL = NODE_ENV === 'production' ? REACT_APP_BASE_URL : DEV_URL
+
 class Api {
-  constructor (options) {
-    this._baseUrl = options.baseUrl;
-    this._headers = options.headers;
+  constructor(options) {
+    this._baseUrl = options.baseUrl
+    this._headers = options.headers
   }
 
-  _checkResponse (res) {
+  _checkResponse(res) {
     if (res.ok) {
-     return res.json()
+      return res.json()
     }
 
-    return Promise.reject(`Ошибка: ${res.status}`);
+    return Promise.reject(`Ошибка: ${res.status}`)
   }
 
   login(email, password) {
@@ -18,10 +24,9 @@ class Api {
       headers: this._headers,
       body: JSON.stringify({
         email,
-        password
-      })
-    })
-      .then(this._checkResponse)
+        password,
+      }),
+    }).then(this._checkResponse)
   }
 
   checkToken(token) {
@@ -29,30 +34,27 @@ class Api {
       method: 'POST',
       headers: this._headers,
       body: JSON.stringify({
-        token
-      })
-    })
-      .then(this._checkResponse)
+        token,
+      }),
+    }).then(this._checkResponse)
   }
 
   getAllMatchedItems(token) {
     return fetch(`${this._baseUrl}/match/`, {
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`
-      }
-    })
-      .then(this._checkResponse)
+        Authorization: `Bearer ${token}`,
+      },
+    }).then(this._checkResponse)
   }
 
   getDirectMatchedItems(token, page) {
     return fetch(`${this._baseUrl}/match/?page=${page}`, {
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`
-      }
-    })
-      .then(this._checkResponse)
+        Authorization: `Bearer ${token}`,
+      },
+    }).then(this._checkResponse)
   }
 
   deleteMatchedItems(token, id) {
@@ -60,16 +62,15 @@ class Api {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`
+        Authorization: `Bearer ${token}`,
+      },
+    }).then((res) => {
+      if (res.ok) {
+        return
       }
-    })
-      .then((res) => {
-        if (res.ok) {
-          return
-        }
 
-        return Promise.reject(`Ошибка: ${res.status}`);
-      })
+      return Promise.reject(`Ошибка: ${res.status}`)
+    })
   }
 
   getStatistic(token) {
@@ -85,10 +86,10 @@ class Api {
 }
 
 const api = new Api({
-  baseUrl: 'http://localhost:8000/api',
+  baseUrl: BASE_URL,
   headers: {
-    'Content-Type': 'application/json'
-  }
+    'Content-Type': 'application/json',
+  },
 })
 
 export default api

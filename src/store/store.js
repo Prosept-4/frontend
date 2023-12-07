@@ -3,7 +3,8 @@ import productsDealerReducer from './productsDealerSlice'
 import selectedDealerReducer from './selectedDealerSlice'
 import selectedProseptReducer from './selectedProseptSlice'
 import productsProseptReducer from './productsProseptSlice'
-import filterReducer from './filterValueSlice'
+import loaderProseptReducer from './loaderProsept'
+import errColumnProseptReducer from './errColumnProsept'
 
 export default configureStore({
   reducer: {
@@ -11,6 +12,7 @@ export default configureStore({
     productsProseptReducer,
     selectedDealerReducer,
     selectedProseptReducer,
-    filterReducer,
+    loaderProseptReducer,
+    errColumnProseptReducer,
   },
 })

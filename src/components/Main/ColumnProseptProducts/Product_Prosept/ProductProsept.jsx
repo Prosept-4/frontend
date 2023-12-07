@@ -38,7 +38,7 @@ export default function ProductProsept({ product }) {
           Выбрать
         </button>
       </div>
-      <h3 className='product__name'>{product.name}</h3>
+      <h3 className='product__name'>{product.name_1c}</h3>
       <div className='product__article-wrapper'>
         <p className='product__article'>
           Артикул:{' '}

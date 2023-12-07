@@ -5,7 +5,7 @@ function Header({isLoggedIn, setLoggedIn}) {
   const navigate = useNavigate();
 
   function handleSignOut() {
-    localStorage.removeItem('token');
+    localStorage.clear();
     setLoggedIn(false);
     navigate('/auth');
   }

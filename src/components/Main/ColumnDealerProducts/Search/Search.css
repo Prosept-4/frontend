@@ -3,7 +3,7 @@
   border-radius: 10px;
   min-width: 490px;
   box-sizing: border-box;
-  min-height: 100px;
+  min-height: 90px;
   width: 100%;
   display: flex;
   justify-content: space-between;
@@ -20,6 +20,7 @@
   width: 100%;
   border-right: #8b8b8b solid 1px;
   padding: 8px;
+  row-gap: 5px;
 }
 
 .search__button {
@@ -28,14 +29,8 @@
   font-size: 15px;
 }
 
-.search__input-wrapper {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
 .search__input {
-  max-width: 120px;
+  max-width: 220px;
   width: 100%;
   border: none;
   border-bottom: 1px solid #000;
@@ -57,18 +52,6 @@
   font-weight: 400;
 }
 
-.search__img {
-  display: inline-block;
-  background-image: url(../../../../images/main/search_icon1_green.svg);
-  background-position: center;
-  background-size: 15px 15px;
-  background-repeat: no-repeat;
-  background-color: transparent;
-  box-sizing: border-box;
-  min-height: 25px;
-  min-width: 25px;
-}
-
 .search__request-form {
   width: 66%;
   padding: 8px;
@@ -78,10 +61,16 @@
   align-items: center;
 }
 
+.search__request-form-wrapper {
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  align-items: flex-end;
+}
+
 .search__request-wrapper {
   display: flex;
   flex-direction: column;
-  width: 100%;
 }
 
 .search__request-annotation {
@@ -92,8 +81,22 @@
   text-align: center;
 }
 
-.search__request-annotation_type_err {
+.search__request-annotation_color_red {
   color: red;
+}
+
+.search__request-annotation_color_green {
+  color: #38a43a;
+}
+
+.search__request-annotation_type_err {
+  min-height: 20px;
+  line-height: 20px;
+  width: 100%;
+  color: red;
+  border-radius: 5px;
+  box-shadow: inset 0 0 3px #8b8b8b;
+  overflow: hidden;
 }
 
 .search__products-wrapper {
@@ -118,4 +121,35 @@
   margin: 0;
   font-size: 12px;
   text-align: center;
+}
+
+.search_type_prosept {
+  flex-direction: column;
+  min-height: 70px;
+  box-sizing: border-box;
+  padding: 8px;
+}
+
+.search_prosept-form {
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.search__analiz-wrapper {
+  box-shadow: inset 0 0 3px #8b8b8b;
+  border-radius: 5px;
+  min-height: 34px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  column-gap: 10px;
+  padding: 5px;
+  box-sizing: border-box;
+  justify-content: center;
+}
+
+.search__ok-button {
+  font-size: 13px;
 }
