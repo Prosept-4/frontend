@@ -3,7 +3,7 @@
   font-style:  normal;
   font-weight: 700;
   font-display: swap;
-  src: url(../fonts/dinpro_bold.otf) format("opentype");
+  src: url(../fonts/dinpro_bold.woff) format("woff");
 }
 
 @font-face {
@@ -11,7 +11,7 @@
   font-style:  normal;
   font-weight: 300;
   font-display: swap;
-  src: url(../fonts/dinpro_light.otf) format("opentype");
+  src: url(../fonts/dinpro_light.woff) format("woff");
 }
 
 @font-face {
@@ -19,5 +19,5 @@
   font-style:  normal;
   font-weight: 400;
   font-display: swap;
-  src: url(../fonts/dinpro.otf) format("opentype");
+  src: url(../fonts/dinpro.woff) format("woff");
 }
