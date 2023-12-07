@@ -48,6 +48,31 @@
   text-align: center;
 }
 
+.popup__button {
+  background: none;
+  border: 2px #38A43A solid;
+  border-radius: 25px;
+  padding: 10px 15px;
+  transition: 0.2s;
+  cursor: pointer;
+}
+
+.popup__button:disabled {
+  background: rgba(56, 164, 58, 0.15);
+  color: rgba(77, 77, 77, 0.67);
+  cursor: default;
+}
+
+.popup__button:disabled:hover {
+  background: rgba(56, 164, 58, 0.15);
+  color: rgba(77, 77, 77, 0.67);
+}
+
+.popup__button:hover {
+  background: #38A43A;
+  color: #fff;
+}
+
 .popup__close-button {
   position: absolute;
   left: 10px;

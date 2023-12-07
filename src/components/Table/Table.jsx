@@ -18,6 +18,18 @@ function Table({matchedItems, currentPage, setCurrentPage, maxPage, deleteMatche
     window.scrollTo(0, 0)
   }
 
+  function checkPositions() {
+    if(positions.length) {
+      return positions
+    } else {
+      return (
+        <p className="position__error">
+          Нет записей в базе данных
+        </p>
+      )
+    }
+  }
+
   const positions = matchedItems.results.map((data) => (
     <Position
       deleteMatchedItems={deleteMatchedItems}
@@ -48,7 +60,7 @@ function Table({matchedItems, currentPage, setCurrentPage, maxPage, deleteMatche
         </h2>
       </div>
       <div className="table__list">
-        {positions}
+        {checkPositions()}
       </div>
       <div className="table__nav">
         <button className={`table__button ${currentPage === 1 && 'table__button_disabled'}`} type="button" onClick={handlePrevPageButton} disabled={currentPage === 1}>

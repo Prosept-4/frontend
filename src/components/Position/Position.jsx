@@ -11,7 +11,6 @@ function Position({data, deleteMatchedItems, setPopupOpen, setPopupData}) {
   function handleEdit() {
     setPopupOpen(true);
     setPopupData(data);
-    console.log(data)
   }
 
   function handleDelete() {

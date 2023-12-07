@@ -9,6 +9,7 @@ import {useEffect, useState} from "react";
 import ProtectedRoute from '../ProtectedRoute/ProtectedRoute.jsx';
 import Popup from "../Popup/Popup.jsx";
 import Statistic from "../Statistic/Statistic.jsx";
+import {getPredictions} from "../../utils/MainApi";
 
 function App() {
   const navigate = useNavigate();
@@ -24,6 +25,22 @@ function App() {
   const maxPage = Math.ceil(matchedItems.count/10)
 
   const [statisticData, setStatisticData] = useState({});
+  const [predictions, setPredictions] = useState([])
+
+  function getPredictionsForPopup(id) {
+    setLoaderOpen(true)
+
+    getPredictions(id)
+      .then((res) => {
+        setPredictions(res.results)
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+      .finally(() => {
+        setLoaderOpen(false)
+      })
+  }
 
   function getStatistic(token) {
     setLoaderOpen(true)
@@ -145,7 +162,7 @@ function App() {
 
   useEffect(() => {
     getMatchedItems(localStorage.getItem('token'));
-  }, [currentPage, isLoggedIn, navigate]);
+  }, [currentPage, isLoggedIn, navigate, isPopupOpen]);
 
   return (
     <div className='page'>
@@ -207,6 +224,8 @@ function App() {
         isOpen={isPopupOpen}
         setData={setPopupData}
         data={popupData}
+        getPredictions={getPredictionsForPopup}
+        predictions={predictions}
       />
       <Loader
         isOpen={isLoaderOpen}

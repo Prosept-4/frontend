@@ -1,0 +1,343 @@
+diff --git a/src/components/App/App.jsx b/src/components/App/App.jsx
+index c3b8371..a37780c 100644
+--- a/src/components/App/App.jsx
++++ b/src/components/App/App.jsx
+@@ -9,6 +9,7 @@ import {useEffect, useState} from "react";
+ import ProtectedRoute from '../ProtectedRoute/ProtectedRoute.jsx';
+ import Popup from "../Popup/Popup.jsx";
+ import Statistic from "../Statistic/Statistic.jsx";
++import {getPredictions} from "../../utils/MainApi";
+ 
+ function App() {
+   const navigate = useNavigate();
+@@ -24,6 +25,22 @@ function App() {
+   const maxPage = Math.ceil(matchedItems.count/10)
+ 
+   const [statisticData, setStatisticData] = useState({});
++  const [predictions, setPredictions] = useState([])
++
++  function getPredictionsForPopup(id) {
++    setLoaderOpen(true)
++
++    getPredictions(id)
++      .then((res) => {
++        setPredictions(res.results)
++      })
++      .catch((err) => {
++        console.log(err)
++      })
++      .finally(() => {
++        setLoaderOpen(false)
++      })
++  }
+ 
+   function getStatistic(token) {
+     setLoaderOpen(true)
+@@ -145,7 +162,7 @@ function App() {
+ 
+   useEffect(() => {
+     getMatchedItems(localStorage.getItem('token'));
+-  }, [currentPage, isLoggedIn, navigate]);
++  }, [currentPage, isLoggedIn, navigate, isPopupOpen]);
+ 
+   return (
+     <div className='page'>
+@@ -207,6 +224,8 @@ function App() {
+         isOpen={isPopupOpen}
+         setData={setPopupData}
+         data={popupData}
++        getPredictions={getPredictionsForPopup}
++        predictions={predictions}
+       />
+       <Loader
+         isOpen={isLoaderOpen}
+diff --git a/src/components/Popup/Popup.css b/src/components/Popup/Popup.css
+index a9728db..85e5feb 100644
+--- a/src/components/Popup/Popup.css
++++ b/src/components/Popup/Popup.css
+@@ -48,6 +48,31 @@
+   text-align: center;
+ }
+ 
++.popup__button {
++  background: none;
++  border: 2px #38A43A solid;
++  border-radius: 25px;
++  padding: 10px 15px;
++  transition: 0.2s;
++  cursor: pointer;
++}
++
++.popup__button:disabled {
++  background: rgba(56, 164, 58, 0.15);
++  color: rgba(77, 77, 77, 0.67);
++  cursor: default;
++}
++
++.popup__button:disabled:hover {
++  background: rgba(56, 164, 58, 0.15);
++  color: rgba(77, 77, 77, 0.67);
++}
++
++.popup__button:hover {
++  background: #38A43A;
++  color: #fff;
++}
++
+ .popup__close-button {
+   position: absolute;
+   left: 10px;
+diff --git a/src/components/Popup/Popup.jsx b/src/components/Popup/Popup.jsx
+index bc3bdd3..93a5de4 100644
+--- a/src/components/Popup/Popup.jsx
++++ b/src/components/Popup/Popup.jsx
+@@ -1,7 +1,12 @@
+ import {Link} from 'react-router-dom';
+ import PositionItem from '../Position/PositionItem/PositionItem.jsx';
++import {useEffect, useState} from "react";
++import api from "../../utils/Api";
++
++function Popup({setOpen, isOpen, setData, data, getPredictions, predictions}) {
++  const [productId, setProductId] = useState('');
++  const [choosenElement, setChoosenElement] = useState('');
+ 
+-function Popup({setOpen, isOpen, setData, data}) {
+   function handleCopyDealer() {
+     navigator.clipboard.writeText(data.key)
+   }
+@@ -25,49 +30,34 @@ function Popup({setOpen, isOpen, setData, data}) {
+   function handleClose() {
+     setOpen(false);
+     setData({})
++    setProductId('')
++    setChoosenElement('')
+   }
+ 
+   function handleMatch() {
+-
++    api.patchMatch(localStorage.getItem('token'), data.id, data.key, data.dealer_id, productId)
++      .then((res) => {
++        console.log(res)
++      })
++      .catch((err) => {
++        console.log(err)
++      })
++      .finally(() => {
++        handleClose()
++      })
+   }
+ 
+-  const proseptData = [
+-    {
+-      id: 1,
+-      prosept_article: "М007-2",
+-      prosept_name: "Антисептик для рук PROSEPT PROF DZ, 2 штуки*100 мл.",
+-      prosept_cost: 999
+-    },
+-    {
+-      id: 2,
+-      prosept_article: "М00wwewe7-2",
+-      prosept_name: "Антисептик  DZ, 2 штуки*100 мл.",
+-      prosept_cost: 999
+-    },
+-    {
+-      id: 3,
+-      prosept_article: "М007-2322232",
+-      prosept_name: "Антисептик для рук PROSEPT PROF  Антисептик для рук PROSEPT PROF  Антисептик для рук PROSEPT PROF ",
+-      prosept_cost: 999
+-    },
+-    {
+-      id: 4,
+-      prosept_article: "М007-2121212",
+-      prosept_name: "Антис   100 мл.",
+-      prosept_cost: 999
+-    },
+-    {
+-      id: 5,
+-      prosept_article: "Мweww007-2",
+-      prosept_name: "Антисептикewewewewewewewwewe для рук PROSEPT PROF DZ, 2 штуки*100 мл.",
+-      prosept_cost: 999
+-    }
+-  ]
++  useEffect(() => {
++    getPredictions(data.key)
++  }, [isOpen])
+ 
+-  const proseptItems = proseptData.map((item) => (
++  const proseptItems = predictions.map((item) => (
+     <PositionItem
+       data={item}
+       key={item.id}
++      setProductId={setProductId}
++      choosenElement={choosenElement}
++      setChoosenElement={setChoosenElement}
+     />
+   ))
+ 
+@@ -94,7 +84,7 @@ function Popup({setOpen, isOpen, setData, data}) {
+               </Link>
+             </div>
+           </div>
+-          <button className="popup__button" onClick={handleMatch}>
++          <button className="popup__button" onClick={handleMatch} disabled={!productId.length}>
+             Связать
+           </button>
+         </div>
+diff --git a/src/components/Position/Position.css b/src/components/Position/Position.css
+index 5caddad..bb75e04 100644
+--- a/src/components/Position/Position.css
++++ b/src/components/Position/Position.css
+@@ -4,6 +4,11 @@
+   gap: 20px;
+ }
+ 
++.position__error {
++  margin: 0;
++  text-align: center;
++}
++
+ .position__item {
+   display: flex;
+   flex-direction: column;
+@@ -21,6 +26,22 @@
+   background: rgba(56, 164, 58, 0.15);
+ }
+ 
++.position__item_choosable {
++  cursor: pointer;
++}
++
++.position__item_choosable:hover {
++  box-shadow: 0 0 3px 5px rgba(56, 164, 58, 0.3) inset;
++}
++
++.position__item_choosen {
++  box-shadow: 0 0 7px 7px rgba(56, 164, 58, 0.7) inset;
++}
++
++.position__item_choosen:hover {
++  box-shadow: 0 0 7px 7px rgba(56, 164, 58, 0.7) inset;
++}
++
+ .position__dealer {
+   margin: 0;
+   font-weight: bold;
+diff --git a/src/components/Position/Position.jsx b/src/components/Position/Position.jsx
+index a6c6ae2..bee8bf1 100644
+--- a/src/components/Position/Position.jsx
++++ b/src/components/Position/Position.jsx
+@@ -11,7 +11,6 @@ function Position({data, deleteMatchedItems, setPopupOpen, setPopupData}) {
+   function handleEdit() {
+     setPopupOpen(true);
+     setPopupData(data);
+-    console.log(data)
+   }
+ 
+   function handleDelete() {
+diff --git a/src/components/Position/PositionItem/PositionItem.jsx b/src/components/Position/PositionItem/PositionItem.jsx
+index 798d1df..94fb9c9 100644
+--- a/src/components/Position/PositionItem/PositionItem.jsx
++++ b/src/components/Position/PositionItem/PositionItem.jsx
+@@ -1,22 +1,27 @@
+-function PositionItem({data}) {
++function PositionItem({data, setProductId, choosenElement, setChoosenElement}) {
+   function handleCopy() {
+-    navigator.clipboard.writeText(data.prosept_article)
++    navigator.clipboard.writeText(data.article)
++  }
++
++  function handleChoose() {
++    setProductId(data.id_product)
++    setChoosenElement(data.id)
+   }
+ 
+   return (
+-    <div className="position__item">
++    <div className={`position__item position__item_choosable ${choosenElement === data.id ? 'position__item_choosen' : ''}`} onClick={handleChoose}>
+       <p className="position__dealer">
+         Prosept
+       </p>
+       <p className="position__name">
+-        {data.prosept_name}
++        {data.name}
+       </p>
+       <div className="position__container">
+         <div className="position__key">
+-          Артикул: <button className="position__article" onClick={handleCopy}>{data.prosept_article}</button>
++          Артикул: <button className="position__article" onClick={handleCopy}>{data.article}</button>
+         </div>
+         <p className="position__price">
+-          Цена: {data.prosept_cost}
++          Цена: {data.recommended_price}
+         </p>
+       </div>
+     </div>
+diff --git a/src/components/Table/Table.jsx b/src/components/Table/Table.jsx
+index b451651..2ac363f 100644
+--- a/src/components/Table/Table.jsx
++++ b/src/components/Table/Table.jsx
+@@ -18,6 +18,18 @@ function Table({matchedItems, currentPage, setCurrentPage, maxPage, deleteMatche
+     window.scrollTo(0, 0)
+   }
+ 
++  function checkPositions() {
++    if(positions.length) {
++      return positions
++    } else {
++      return (
++        <p className="position__error">
++          Нет записей в базе данных
++        </p>
++      )
++    }
++  }
++
+   const positions = matchedItems.results.map((data) => (
+     <Position
+       deleteMatchedItems={deleteMatchedItems}
+@@ -48,7 +60,7 @@ function Table({matchedItems, currentPage, setCurrentPage, maxPage, deleteMatche
+         </h2>
+       </div>
+       <div className="table__list">
+-        {positions}
++        {checkPositions()}
+       </div>
+       <div className="table__nav">
+         <button className={`table__button ${currentPage === 1 && 'table__button_disabled'}`} type="button" onClick={handlePrevPageButton} disabled={currentPage === 1}>
+diff --git a/src/tools/const.js b/src/tools/const.js
+index da08549..d5257d7 100644
+--- a/src/tools/const.js
++++ b/src/tools/const.js
+@@ -1,4 +1,4 @@
+-export const DEV_URL = 'http://127.0.0.1:8000/api'
++export const DEV_URL = 'http://127.0.0.1/api'
+ 
+ export const urlReg = /^https?:/
+ 
+diff --git a/src/utils/Api.js b/src/utils/Api.js
+index 95e0c53..804f2e7 100644
+--- a/src/utils/Api.js
++++ b/src/utils/Api.js
+@@ -83,6 +83,22 @@ class Api {
+       .then(this._checkResponse)
+   }
+ 
++  patchMatch(token, id, key, dealer_id, product_id) {
++    return fetch(`${this._baseUrl}/match/${id}/`, {
++      method: 'PATCH',
++      headers: {
++        'Content-Type': 'application/json',
++        'Authorization': `Bearer ${token}`
++      },
++      body: JSON.stringify({
++        key,
++        dealer_id,
++        product_id
++      }),
++    })
++      .then(this._checkResponse)
++  }
++
+ }
+ 
+ const api = new Api({
