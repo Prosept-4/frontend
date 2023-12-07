@@ -83,6 +83,22 @@ class Api {
       .then(this._checkResponse)
   }
 
+  patchMatch(token, id, key, dealer_id, product_id) {
+    return fetch(`${this._baseUrl}/match/${id}/`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      },
+      body: JSON.stringify({
+        key,
+        dealer_id,
+        product_id
+      }),
+    })
+      .then(this._checkResponse)
+  }
+
 }
 
 const api = new Api({

@@ -1,7 +1,12 @@
 import {Link} from 'react-router-dom';
 import PositionItem from '../Position/PositionItem/PositionItem.jsx';
+import {useEffect, useState} from "react";
+import api from "../../utils/Api";
 
-function Popup({setOpen, isOpen, setData, data}) {
+function Popup({setOpen, isOpen, setData, data, getPredictions, predictions}) {
+  const [productId, setProductId] = useState('');
+  const [choosenElement, setChoosenElement] = useState('');
+
   function handleCopyDealer() {
     navigator.clipboard.writeText(data.key)
   }
@@ -25,49 +30,34 @@ function Popup({setOpen, isOpen, setData, data}) {
   function handleClose() {
     setOpen(false);
     setData({})
+    setProductId('')
+    setChoosenElement('')
   }
 
   function handleMatch() {
-
+    api.patchMatch(localStorage.getItem('token'), data.id, data.key, data.dealer_id, productId)
+      .then((res) => {
+        console.log(res)
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+      .finally(() => {
+        handleClose()
+      })
   }
 
-  const proseptData = [
-    {
-      id: 1,
-      prosept_article: "М007-2",
-      prosept_name: "Антисептик для рук PROSEPT PROF DZ, 2 штуки*100 мл.",
-      prosept_cost: 999
-    },
-    {
-      id: 2,
-      prosept_article: "М00wwewe7-2",
-      prosept_name: "Антисептик  DZ, 2 штуки*100 мл.",
-      prosept_cost: 999
-    },
-    {
-      id: 3,
-      prosept_article: "М007-2322232",
-      prosept_name: "Антисептик для рук PROSEPT PROF  Антисептик для рук PROSEPT PROF  Антисептик для рук PROSEPT PROF ",
-      prosept_cost: 999
-    },
-    {
-      id: 4,
-      prosept_article: "М007-2121212",
-      prosept_name: "Антис   100 мл.",
-      prosept_cost: 999
-    },
-    {
-      id: 5,
-      prosept_article: "Мweww007-2",
-      prosept_name: "Антисептикewewewewewewewwewe для рук PROSEPT PROF DZ, 2 штуки*100 мл.",
-      prosept_cost: 999
-    }
-  ]
+  useEffect(() => {
+    getPredictions(data.key)
+  }, [isOpen])
 
-  const proseptItems = proseptData.map((item) => (
+  const proseptItems = predictions.map((item) => (
     <PositionItem
       data={item}
       key={item.id}
+      setProductId={setProductId}
+      choosenElement={choosenElement}
+      setChoosenElement={setChoosenElement}
     />
   ))
 
@@ -94,7 +84,7 @@ function Popup({setOpen, isOpen, setData, data}) {
               </Link>
             </div>
           </div>
-          <button className="popup__button" onClick={handleMatch}>
+          <button className="popup__button" onClick={handleMatch} disabled={!productId.length}>
             Связать
           </button>
         </div>
