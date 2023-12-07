@@ -6,36 +6,61 @@ function Popup({setOpen, isOpen, setData, data}) {
     navigator.clipboard.writeText(data.key)
   }
 
+  function checkArticle() {
+    if (data?.key?.includes('https')) {
+      return (
+        <Link className="position__link" to={data.key} target="_blank">
+          Ссылка
+        </Link>
+      )
+    } else {
+      return (
+        <button onClick={handleCopyDealer} className="position__article">
+          {data.key}
+        </button>
+      )
+    }
+  }
+
   function handleClose() {
     setOpen(false);
     setData({})
+  }
+
+  function handleMatch() {
+
   }
 
   const proseptData = [
     {
       id: 1,
       prosept_article: "М007-2",
-      prosept_name: "Антисептик для рук PROSEPT PROF DZ, 2 штуки*100 мл."
+      prosept_name: "Антисептик для рук PROSEPT PROF DZ, 2 штуки*100 мл.",
+      prosept_cost: 999
     },
     {
       id: 2,
       prosept_article: "М00wwewe7-2",
-      prosept_name: "Антисептик  DZ, 2 штуки*100 мл."
+      prosept_name: "Антисептик  DZ, 2 штуки*100 мл.",
+      prosept_cost: 999
     },
     {
       id: 3,
       prosept_article: "М007-2322232",
-      prosept_name: "Антисептик для рук PROSEPT PROF  Антисептик для рук PROSEPT PROF  Антисептик для рук PROSEPT PROF "
+      prosept_name: "Антисептик для рук PROSEPT PROF  Антисептик для рук PROSEPT PROF  Антисептик для рук PROSEPT PROF ",
+      prosept_cost: 999
     },
     {
       id: 4,
       prosept_article: "М007-2121212",
-      prosept_name: "Антис   100 мл."
+      prosept_name: "Антис   100 мл.",
+      prosept_cost: 999
     },
     {
       id: 5,
       prosept_article: "Мweww007-2",
-      prosept_name: "Антисептикewewewewewewewwewe для рук PROSEPT PROF DZ, 2 штуки*100 мл."
+      prosept_name: "Антисептикewewewewewewewwewe для рук PROSEPT PROF DZ, 2 штуки*100 мл.",
+      prosept_cost: 999
     }
   ]
 
@@ -61,19 +86,22 @@ function Popup({setOpen, isOpen, setData, data}) {
               {data.dealer_product_name}
             </p>
             <div className="position__container">
-              <button onClick={handleCopyDealer} className="position__key">
-                Артикул: {data.key}
-              </button>
+              <div className="position__key">
+                Артикул:{' '}{checkArticle()}
+              </div>
               <Link className="position__link" to={data.dealer_product_url} target="_blank">
                 Товар
               </Link>
             </div>
           </div>
+          <button className="popup__button" onClick={handleMatch}>
+            Связать
+          </button>
         </div>
         <div className="popup__column">
           {proseptItems}
         </div>
-        <button className="popup__button" type="button" onClick={handleClose}>
+        <button className="popup__close-button" type="button" onClick={handleClose}>
           <svg className="popup__icon"  version="1.1" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
             <g fill="none" fillRule="evenodd" id="Cancel" stroke="none" strokeWidth="1">
               <g fill="#000000" id="Group" transform="translate(14.000000, 14.000000)">

@@ -1,6 +1,6 @@
 function PositionItem({data}) {
-  function handleCopyDealer() {
-    navigator.clipboard.writeText(data.key)
+  function handleCopy() {
+    navigator.clipboard.writeText(data.prosept_article)
   }
 
   return (
@@ -12,9 +12,12 @@ function PositionItem({data}) {
         {data.prosept_name}
       </p>
       <div className="position__container">
-        <button onClick={handleCopyDealer} className="position__key">
-          Артикул: {data.prosept_article}
-        </button>
+        <div className="position__key">
+          Артикул: <button className="position__article" onClick={handleCopy}>{data.prosept_article}</button>
+        </div>
+        <p className="position__price">
+          Цена: {data.prosept_cost}
+        </p>
       </div>
     </div>
   )

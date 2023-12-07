@@ -137,12 +137,15 @@ function App() {
 
   useEffect(() => {
     handleTokenCheck();
-    getStatistic(localStorage.getItem('token'));
   }, []);
 
   useEffect(() => {
+    getStatistic(localStorage.getItem('token'));
+  },[navigate]);
+
+  useEffect(() => {
     getMatchedItems(localStorage.getItem('token'));
-  }, [currentPage, isLoggedIn]);
+  }, [currentPage, isLoggedIn, navigate]);
 
   return (
     <div className='page'>
