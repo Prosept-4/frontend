@@ -4,9 +4,11 @@ import {
   setStatusOnHold,
   setStatusNoMatch,
 } from '../../../store/selectedDealerSlice.js'
+import SearchProsept from './Search_Prosept/SearchProsept.jsx'
 import { setProductsProseptList } from '../../../store/productsProseptSlice.js'
 import { deleteFromProductsListById } from '../../../store/productsDealerSlice.js'
 import ProductProsept from './Product_Prosept/ProductProsept.jsx'
+import LoaderProducts from '../Loader/Loader_products.jsx'
 import {
   getProseptProducts,
   patchProductOnHold,
@@ -24,6 +26,10 @@ export default function ProseptProducts() {
     (state) => state.selectedDealerReducer.product
   )
 
+  const proseptLoader = useSelector(
+    (state) => state.loaderProseptReducer.loader
+  )
+
   useEffect(() => {
     getProseptProducts()
       .then((res) => {
@@ -32,8 +38,17 @@ export default function ProseptProducts() {
       .catch()
   }, [dispatch])
 
+  useEffect(() => {
+    const lastProseptLimiter = Number(localStorage.getItem('ProseptLimiter'))
+    if (!lastProseptLimiter) {
+      return
+    }
+    setLimiterNum(lastProseptLimiter)
+  }, [])
+
   function changeLimiter(e) {
     setLimiterNum(e.target.value)
+    localStorage.setItem('ProseptLimiter', e.target.value)
   }
 
   function changeSelectedOnhold() {
@@ -68,10 +83,17 @@ export default function ProseptProducts() {
       <h2 className='column__title'>
         Товары <span className='column__title-prosept'>Prosept</span>
       </h2>
+      <SearchProsept />
       <div className='column__limiter-annotatoin-wrapper'>
         <p className='column__product-annotation'>
           Выберите соответсвие среди товаров{' '}
           <span className='column__title-prosept'>Prosept</span>:
+        </p>
+        <p className='column__product-annotation'>
+          Найдено:{' '}
+          <span className='column__title-prosept'>
+            {productsListProsept.length}
+          </span>
         </p>
         <div className='column__limiter-wrapper'>
           <p className='column__product-annotation column__product-annotation_type_limiter'>
@@ -79,6 +101,7 @@ export default function ProseptProducts() {
           </p>
           <select
             onChange={changeLimiter}
+            value={limiterNum}
             className='column__limiter sliding-menu'>
             {proseptLimiter.map((item) => {
               return (
@@ -94,11 +117,14 @@ export default function ProseptProducts() {
         </div>
       </div>
       <div className='column__table-wrapper column__table-wrapper_type_prosept'>
-        <ul className='column__table'>
-          {productsListProsept.slice(0, limiterNum).map((product) => {
-            return <ProductProsept key={product.id} product={product} />
-          })}
-        </ul>
+        {proseptLoader && <LoaderProducts />}
+        {!proseptLoader && (
+          <ul className='column__table'>
+            {productsListProsept.slice(0, limiterNum).map((product) => {
+              return <ProductProsept key={product.id} product={product} />
+            })}
+          </ul>
+        )}
       </div>
       <ul className='column__buttons'>
         <li className='column__button-item'>

@@ -44,6 +44,10 @@
   background-color: #fff;
   box-sizing: border-box;
   overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
 .column__table-wrapper_type_prosept {
@@ -130,7 +134,6 @@ min-width: 280px;
 }
 
 .column__limiter-wrapper {
-  width: 40%;
   display: flex;
   justify-content: flex-end;
   align-items: center;

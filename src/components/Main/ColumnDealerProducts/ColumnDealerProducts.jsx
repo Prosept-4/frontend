@@ -2,17 +2,17 @@ import { useState, useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import Product from '../Product/Product.jsx'
 import Search from './Search/Search.jsx'
-import checkName from '../../../tools/filter.js'
+import LoaderProducts from '../Loader/Loader_products.jsx'
 
 export default function DealerProducts() {
   const [annotationProductsType, setAnnotationProductsType] = useState('')
   const [numberAllProductslastLoad, setNumberAllProductslastLoad] = useState(0)
   const [numberSessionProductslastLoad, setNumberSessionProductslastLoad] =
     useState(0)
+  const [isLoadingProductsList, setIsLoadingProductsList] = useState(false)
   const dealerProductsList = useSelector(
     (state) => state.productsDealerReducer.products
   )
-  const filterValue = useSelector((state) => state.filterReducer.filter)
 
   useEffect(() => {
     const lastSession = JSON.parse(localStorage.getItem('lastSession'))
@@ -43,6 +43,7 @@ export default function DealerProducts() {
         setAnnotationProductsType={setAnnotationProductsType}
         setNumberAllProductslastLoad={setNumberAllProductslastLoad}
         setNumberSessionProductslastLoad={setNumberSessionProductslastLoad}
+        setIsLoadingProductsList={setIsLoadingProductsList}
       />
       <div className='column__product-annotation-wrapper'>
         <p className='column__product-annotation column__product-annotation_type_products'>
@@ -66,13 +67,12 @@ export default function DealerProducts() {
         </p>
       </div>
       <div className='column__table-wrapper'>
-        <ul className='column__table'>
-          {dealerProductsList
-            .filter((product) => checkName(product, filterValue))
-            .map((product) => {
-              return <Product key={product.id} product={product} />
-            })}
-        </ul>
+        {isLoadingProductsList && <LoaderProducts />}
+        {!isLoadingProductsList && <ul className='column__table'>
+          {dealerProductsList.map((product) => {
+            return <Product key={product.id} product={product} />
+          })}
+        </ul>}
       </div>
     </section>
   )

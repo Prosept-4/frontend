@@ -12,7 +12,7 @@ export default function ProductProseptSelected() {
     <article className='product'>
       <p className='product__company product__company_type_prosept'>Prosept</p>
       <h3 className='product__name product__name_type_selected'>
-        {selectedProductProsept.name}
+        {selectedProductProsept.name_1c}
       </h3>
       <div className='product__article-wrapper'>
         <p className='product__article'>

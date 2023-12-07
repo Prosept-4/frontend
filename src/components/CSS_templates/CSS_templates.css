@@ -36,6 +36,7 @@
 .button:active {
   color: #fff;
   box-shadow: 0 0 10px #38a43a;
+  background-color: #38a43a;
 }
 
 .button:hover {
@@ -53,6 +54,7 @@
 
 .button_color_red:active {
   box-shadow: 0 0 10px rgba(131, 4, 4);
+  background-color: rgba(131, 4, 4);
 }
 
 .button_color_gray {
@@ -60,11 +62,13 @@
 }
 
 .button_color_gray:active {
+  background-color: rgb(192, 192, 192);
   box-shadow: 0 0 10px rgb(0, 0, 0);
 }
 
 .button_color_gray:hover {
   background-color: rgb(192, 192, 192);
+  box-shadow: 0 0 10px rgb(0, 0, 0);
 }
 
 .button_disabled {

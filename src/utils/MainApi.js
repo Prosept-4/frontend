@@ -1,4 +1,4 @@
-const URL = 'http://127.0.0.1:8000'
+import { URL } from "../tools/const"
 
 function defaultHeader() {
   return {
@@ -11,7 +11,7 @@ function handleResponse(res) {
   if (res.ok) {
     return res.json()
   }
-  return Promise.reject(`Ошибка: ${res.status}`)
+  return Promise.reject(`Ошибка: ${res}`)
 }
 
 function getProducts(
@@ -19,7 +19,7 @@ function getProducts(
   { has_no_matches, is_matched, is_postponed }
 ) {
   return fetch(
-    `${URL}/api/dealer-products/?` +
+    `${URL}/dealer-products/?` +
       new URLSearchParams({
         has_no_matches: has_no_matches,
         is_matched: is_matched,
@@ -58,14 +58,14 @@ export function getNoMatchProducts(productsNum) {
 }
 
 export function getProseptProducts() {
-  return fetch(`${URL}/api/product/?limit=10`, {
+  return fetch(`${URL}/product/?limit=10`, {
     method: 'GET',
     headers: defaultHeader(),
   }).then(handleResponse)
 }
 
 export function patchProductOnHold(id) {
-  return fetch(`${URL}/api/postpone/${id}/`, {
+  return fetch(`${URL}/postpone/${id}/`, {
     method: 'PATCH',
     headers: defaultHeader(),
     body: JSON.stringify({ is_postponed: true }),
@@ -73,7 +73,7 @@ export function patchProductOnHold(id) {
 }
 
 export function patchProductNoMatch(id) {
-  return fetch(`${URL}/api/has_no_matches/${id}/`, {
+  return fetch(`${URL}/has_no_matches/${id}/`, {
     method: 'PATCH',
     headers: defaultHeader(),
     body: JSON.stringify({ has_no_matches: true }),
@@ -81,7 +81,7 @@ export function patchProductNoMatch(id) {
 }
 
 export function postMatchProducts({ key, dealer_id, product_id }) {
-  return fetch(`${URL}/api/match/`, {
+  return fetch(`${URL}/match/`, {
     method: 'POST',
     headers: defaultHeader(),
     body: JSON.stringify({
@@ -93,13 +93,38 @@ export function postMatchProducts({ key, dealer_id, product_id }) {
 }
 
 export function deleteMatch(id) {
-  return fetch(`${URL}/api/match/${id}/`, {
+  return fetch(`${URL}/match/${id}/`, {
     method: 'DELETE',
     headers: defaultHeader(),
   }).then((res) => {
     if (res.ok) {
       return res
     }
-    return Promise.reject(`Ошибка: ${res.status}`)
+    return Promise.reject(`Ошибка: ${res}`)
+  })
+}
+
+export function getProseptProductByText(text) {
+  return fetch(
+    `${URL}/product/?` +
+      new URLSearchParams({
+        name: text,
+      }),
+    {
+      method: 'GET',
+      headers: defaultHeader(),
+    }
+  ).then(handleResponse)
+}
+
+export function getAnalyze() {
+  return fetch(`${URL}/analyze/`, {
+    method: 'get',
+    headers: defaultHeader(),
+  }).then((res) => {
+    if (res.ok) {
+      return res
+    }
+    return Promise.reject(`Ошибка: ${res}`)
   })
 }
