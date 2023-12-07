@@ -34,13 +34,16 @@ export default function SearchProsept() {
     dispatch(activateLoader())
     getProseptProductByText(searchText)
       .then((res) => {
+        console.log(res.results.length)
         dispatch(setProductsProseptList({ productsList: res.results }))
         if (res.results.length === 0) {
-          setProseptErr({ err: 'По вашему запросу ничего не найдено' })
+          dispatch(
+            setProseptErr({ err: 'По вашему запросу ничего не найдено' })
+          )
         }
       })
       .catch(() => {
-        setProseptErr({ err: 'Ошибка сервера' })
+        dispatch(setProseptErr({ err: 'Ошибка сервера' }))
       })
       .finally(() => {
         dispatch(deactivateLoader())
