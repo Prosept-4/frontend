@@ -51,9 +51,6 @@ export default function ConnectedProducts() {
   }, [windowHeight])
 
   function connectSelectedProducts() {
-    console.log('product_key', selectedDealerProduct.product_key)
-    console.log('dealer_id', selectedDealerProduct.dealer_id)
-    console.log('id_product', selectedProseptProduct.id_product)
     postMatchProducts({
       key: selectedDealerProduct.product_key,
       dealer_id: selectedDealerProduct.dealer_id,
