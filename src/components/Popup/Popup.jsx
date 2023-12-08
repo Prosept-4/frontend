@@ -1,9 +1,11 @@
 import {Link} from 'react-router-dom';
 import PositionItem from '../Position/PositionItem/PositionItem.jsx';
-import {useEffect, useState} from "react";
+import {useState} from "react";
 import api from "../../utils/Api";
 
-function Popup({setOpen, isOpen, setData, data, getPredictions, predictions}) {
+
+
+function Popup({setOpen, isOpen, setData, data, predictions}) {
   const [productId, setProductId] = useState('');
   const [choosenElement, setChoosenElement] = useState('');
 
@@ -35,7 +37,7 @@ function Popup({setOpen, isOpen, setData, data, getPredictions, predictions}) {
   }
 
   function handleMatch() {
-    api.patchMatch(localStorage.getItem('token'), data.id, data.key, data.dealer_id, productId)
+    api.patchMatch( data.id, data.key, data.dealer_id, productId)
       .then((res) => {
         console.log(res)
       })
@@ -46,10 +48,6 @@ function Popup({setOpen, isOpen, setData, data, getPredictions, predictions}) {
         handleClose()
       })
   }
-
-  useEffect(() => {
-    getPredictions(data.key)
-  }, [isOpen])
 
   const proseptItems = predictions.map((item) => (
     <PositionItem
