@@ -117,3 +117,27 @@
 .status-icon_type_on-hold {
   background-image: url('../../images/main/time.svg');
 }
+
+.data {
+  background-color: transparent;
+  box-shadow: none;
+  border: 1px solid rgb(192, 192, 192);
+  font-family: 'Din Pro', 'Arial', sans-serif;
+  border-radius: 8px;
+  font-size: 15px;
+  cursor: pointer;
+  transition: all 0.2s;
+  overflow: hidden;
+  max-width: 100%;
+}
+
+.data:focus {
+  border: 1px solid #38a43a;
+  outline: none;
+}
+
+.data:hover {
+  border: 1px solid #38a43a;
+  outline: none;
+}
+

@@ -73,16 +73,6 @@ class Api {
     })
   }
 
-  getStatistic(token) {
-    return fetch(`${this._baseUrl}/statistic/`, {
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`
-      }
-    })
-      .then(this._checkResponse)
-  }
-
   patchMatch(token, id, key, dealer_id, product_id) {
     return fetch(`${this._baseUrl}/match/${id}/`, {
       method: 'PATCH',

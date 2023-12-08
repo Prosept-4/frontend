@@ -146,3 +146,24 @@ export function getPredictions(id) {
     }
   ).then(handleResponse)
 }
+
+export function getAllStatistics() {
+  return fetch(`${BASE_URL}/statistic/`, {
+    method: 'GET',
+    headers: defaultHeader(),
+  }).then(handleResponse)
+}
+
+export function getStatisticsByDate(minDate, maxDate) {
+  return fetch(
+    `${BASE_URL}/statistic/?` +
+      new URLSearchParams({
+        min_date: `${minDate[0]}-${minDate[1]}-${minDate[2]}`,
+        max_date: `${maxDate[0]}-${maxDate[1]}-${maxDate[2]}`,
+      }),
+    {
+      method: 'GET',
+      headers: defaultHeader(),
+    }
+  ).then(handleResponse)
+}

@@ -24,7 +24,6 @@ function App() {
   const [currentPage, setCurrentPage] = useState(1);
   const maxPage = Math.ceil(matchedItems.count/10)
 
-  const [statisticData, setStatisticData] = useState({});
   const [predictions, setPredictions] = useState([])
 
   function getPredictionsForPopup(id) {
@@ -42,20 +41,6 @@ function App() {
       })
   }
 
-  function getStatistic(token) {
-    setLoaderOpen(true)
-
-    api.getStatistic(token)
-      .then((res) => {
-        setStatisticData(res)
-      })
-      .catch((err) => {
-        console.log(err)
-      })
-      .finally(() => {
-        setLoaderOpen(false)
-      })
-  }
 
   function getMatchedItems(token) {
     setLoaderOpen(true)
@@ -157,10 +142,6 @@ function App() {
   }, []);
 
   useEffect(() => {
-    getStatistic(localStorage.getItem('token'));
-  },[navigate]);
-
-  useEffect(() => {
     getMatchedItems(localStorage.getItem('token'));
   }, [currentPage, isLoggedIn, navigate, isPopupOpen]);
 
@@ -209,7 +190,6 @@ function App() {
             <ProtectedRoute
               isLoggedIn={isLoggedIn}
               element={Statistic}
-              data={statisticData}
             />
           }
         />
