@@ -11,10 +11,12 @@ COPY package*.json ./
 
 COPY package-lock.json ./
 
-RUN npm install
+RUN npm ci
 
 COPY . ./
 
+RUN npm cache clean --force
+
 RUN npm run build
 
-CMD cp -r dist /frontend_static/
+CMD cp -r build /frontend_static/
