@@ -61,3 +61,7 @@ HTML5, CSS3, JS, React (18.2.0), Redux (4.2.1/ toolkit 1.9.7)
 - иконка красного креста https://ru.m.wikipedia.org/wiki/%D0%A4%D0%B0%D0%B9%D0%BB:Red_X.svg
 - иконка часов https://www.svgrepo.com/svg/31585/time-left
 - лого Prosept https://prosept.ru/
+
+4) **Loader**
+
+- https://loading.io/css/
