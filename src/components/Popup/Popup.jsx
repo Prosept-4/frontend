@@ -36,8 +36,8 @@ function Popup({setOpen, isOpen, setData, data, getPredictions, predictions}) {
 
   function handleMatch() {
     api.patchMatch(localStorage.getItem('token'), data.id, data.key, data.dealer_id, productId)
-      .then((res) => {
-        console.log(res)
+      .then(() => {
+        
       })
       .catch((err) => {
         console.log(err)

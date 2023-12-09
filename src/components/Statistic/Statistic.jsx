@@ -19,8 +19,6 @@ function Statistic() {
     setDateText()
     const arrMinDate = minDate.split('-')
     const arrMaxDate = maxDate.split('-')
-    console.log(arrMinDate)
-    console.log('asadsads', arrMinDate[0], arrMinDate[1], arrMinDate[2])
     if (arrMinDate.length < 3 || arrMaxDate.length < 3) {
       getAllStatistics()
         .then((res) => {
@@ -70,9 +68,6 @@ function Statistic() {
           }, '10000')
         })
     }
-    console.log('arrMinDate', arrMinDate)
-    console.log('arrMaxDate', arrMaxDate)
-    console.log('arrMaxDate', arrMaxDate.length)
   }
 
   function handleChangeMinDate(e) {

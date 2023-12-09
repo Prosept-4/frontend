@@ -88,7 +88,6 @@ function App() {
             }, [])
           }
         })
-        console.log(matchedItems)
       })
       .catch((err) => {
         console.log(err)

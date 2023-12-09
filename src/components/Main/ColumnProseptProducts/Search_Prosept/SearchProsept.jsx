@@ -34,7 +34,6 @@ export default function SearchProsept() {
     dispatch(activateLoader())
     getProseptProductByText(searchText)
       .then((res) => {
-        console.log(res.results.length)
         dispatch(setProductsProseptList({ productsList: res.results }))
         if (res.results.length === 0) {
           dispatch(

@@ -17,8 +17,6 @@ export default function ProductProsept({ product }) {
     dispatch(setSelectedProseptProduct({ product }))
   }
 
-  console.log()
-
   return (
     <li
       className={`product product_type_active ${
