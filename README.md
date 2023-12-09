@@ -10,7 +10,7 @@
 
 ## Authors
 
-- [Красноруцкий Кирилл](https://github.com/Red-Handed-Guy) - Разработка страницы разметки товров `/main`
+- [Красноруцкий Кирилл](https://github.com/Red-Handed-Guy) - Разработка страницы разметки товров `/main, /stats`
 - [Богдан Исаченко](https://github.com/Doctorian-Bogdan) - Разработка страниц авторизации `/auth`, статистики `/stats`, просмотра `/table`
 
 ## Installation
