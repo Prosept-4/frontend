@@ -29,7 +29,7 @@ function getProducts(
         is_matched: is_matched,
         is_postponed: is_postponed,
         limit: productsNum,
-        is_analyzed: true,
+        is_analyzed:true,
       }),
     {
       method: 'GET',

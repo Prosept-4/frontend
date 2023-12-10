@@ -18,6 +18,10 @@ class Api {
     return Promise.reject(`Ошибка: ${res.status}`)
   }
 
+  _getToken() {
+    return(localStorage.getItem('token'))
+    }
+
   login(email, password) {
     return fetch(`${this._baseUrl}/auth/login/`, {
       method: 'POST',
@@ -29,40 +33,40 @@ class Api {
     }).then(this._checkResponse)
   }
 
-  checkToken(token) {
+  checkToken() {
     return fetch(`${this._baseUrl}/auth/token/verify/`, {
       method: 'POST',
       headers: this._headers,
       body: JSON.stringify({
-        token,
+        token:this._getToken() ,
       }),
     }).then(this._checkResponse)
   }
 
-  getAllMatchedItems(token) {
+  getAllMatchedItems() {
     return fetch(`${this._baseUrl}/match/`, {
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${this._getToken()}`,
       },
     }).then(this._checkResponse)
   }
 
-  getDirectMatchedItems(token, page) {
+  getDirectMatchedItems(page) {
     return fetch(`${this._baseUrl}/match/?page=${page}`, {
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${this._getToken()}`,
       },
     }).then(this._checkResponse)
   }
 
-  deleteMatchedItems(token, id) {
+  deleteMatchedItems(id) {
     return fetch(`${this._baseUrl}/match/${id}/`, {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${this._getToken()}`,
       },
     }).then((res) => {
       if (res.ok) {
@@ -73,12 +77,12 @@ class Api {
     })
   }
 
-  patchMatch(token, id, key, dealer_id, product_id) {
+  patchMatch( id, key, dealer_id, product_id) {
     return fetch(`${this._baseUrl}/match/${id}/`, {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`
+        'Authorization': `Bearer ${this._getToken()}`
       },
       body: JSON.stringify({
         key,
