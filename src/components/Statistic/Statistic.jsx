@@ -19,6 +19,35 @@ function Statistic() {
     setDateText('')
     const arrMinDate = minDate.split('-')
     const arrMaxDate = maxDate.split('-')
+
+    const convertedMinDate = new Date(
+      +arrMinDate[0],
+      +arrMinDate[1],
+      +arrMinDate[2]
+    )
+    const convertedMaxDate = new Date(
+      +arrMaxDate[0],
+      +arrMaxDate[1],
+      +arrMaxDate[2]
+    )
+
+    const normalData = new Date(2000, 0, 1)
+
+    if (convertedMaxDate.getTime() < convertedMinDate.getTime()) {
+      setStatusText('Конечная дата не может быть меньше начальной')
+      setTextColor('statistic__text_color_red ')
+      return
+    }
+
+    if (
+      convertedMaxDate.getTime() < normalData.getTime() ||
+      convertedMinDate.getTime() < normalData.getTime()
+    ) {
+      setStatusText('Минимальная дата - 1 января 2000 г.')
+      setTextColor('statistic__text_color_red ')
+      return
+    }
+
     if (arrMinDate.length < 3 || arrMaxDate.length < 3) {
       getAllStatistics()
         .then((res) => {
@@ -33,7 +62,6 @@ function Statistic() {
           setStatusText('Ошибка сервера')
           setTextColor('statistic__text_color_red ')
         })
-
     } else {
       getStatisticsByDate(arrMinDate, arrMaxDate)
         .then((res) => {
@@ -69,7 +97,10 @@ function Statistic() {
         <div className='statistic__form-container'>
           <p className='statistic__text'>
             Укажите временной промежуток или оставьте поля пустыми для
-            получения статистики за все время
+            получения статистики за все время.
+          </p>
+          <p className='statistic__text statistic__text_type_mini'>
+            Дату вводите с тире между цифрами, как в примере
           </p>
           <form onSubmit={getStatistic} className='statistic__form'>
             <div className='statistic__input-wrapper'>
@@ -77,17 +108,19 @@ function Statistic() {
               <input
                 className='data'
                 value={minDate}
+                placeholder='дд-мм-гггг'
                 onChange={handleChangeMinDate}
-                type='date'
+                type='text'
               />
             </div>
             <div className='statistic__input-wrapper'>
               <p className='statistic__text'>по</p>
               <input
+                placeholder='дд-мм-гггг'
                 className='data'
                 value={maxDate}
                 onChange={handleChangeMaxDate}
-                type='date'
+                type='text'
               />
             </div>
             <button className='button'>Запрос</button>

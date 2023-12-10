@@ -125,10 +125,9 @@
   font-family: 'Din Pro', 'Arial', sans-serif;
   border-radius: 8px;
   font-size: 15px;
-  cursor: pointer;
   transition: all 0.2s;
   overflow: hidden;
-  max-width: 100%;
+  max-width: 100px;
 }
 
 .data:focus {
