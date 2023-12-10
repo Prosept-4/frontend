@@ -29,7 +29,7 @@ function getProducts(
         is_matched: is_matched,
         is_postponed: is_postponed,
         limit: productsNum,
-        is_analyzed:true,
+        is_analyzed: true,
       }),
     {
       method: 'GET',
@@ -159,8 +159,8 @@ export function getStatisticsByDate(minDate, maxDate) {
   return fetch(
     `${BASE_URL}/statistic/?` +
       new URLSearchParams({
-        min_date: `${minDate[0]}-${minDate[1]}-${minDate[2]}`,
-        max_date: `${maxDate[0]}-${maxDate[1]}-${maxDate[2]}`,
+        min_date: minDate,
+        max_date: maxDate,
       }),
     {
       method: 'GET',

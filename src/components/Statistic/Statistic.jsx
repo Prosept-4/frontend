@@ -17,38 +17,7 @@ function Statistic() {
     setStatusText('')
     setTextColor('')
     setDateText('')
-    const arrMinDate = minDate.split('-')
-    const arrMaxDate = maxDate.split('-')
-
-    const convertedMinDate = new Date(
-      +arrMinDate[0],
-      +arrMinDate[1],
-      +arrMinDate[2]
-    )
-    const convertedMaxDate = new Date(
-      +arrMaxDate[0],
-      +arrMaxDate[1],
-      +arrMaxDate[2]
-    )
-
-    const normalData = new Date(2000, 0, 1)
-
-    if (convertedMaxDate.getTime() < convertedMinDate.getTime()) {
-      setStatusText('Конечная дата не может быть меньше начальной')
-      setTextColor('statistic__text_color_red ')
-      return
-    }
-
-    if (
-      convertedMaxDate.getTime() < normalData.getTime() ||
-      convertedMinDate.getTime() < normalData.getTime()
-    ) {
-      setStatusText('Минимальная дата - 1 января 2000 г.')
-      setTextColor('statistic__text_color_red ')
-      return
-    }
-
-    if (arrMinDate.length < 3 || arrMaxDate.length < 3) {
+    if (minDate === '' || maxDate === '') {
       getAllStatistics()
         .then((res) => {
           setHasNoMatches(res.has_no_matches)
@@ -60,26 +29,62 @@ function Statistic() {
         })
         .catch(() => {
           setStatusText('Ошибка сервера')
-          setTextColor('statistic__text_color_red ')
+          setTextColor('statistic__text_color_red')
         })
-    } else {
-      getStatisticsByDate(arrMinDate, arrMaxDate)
-        .then((res) => {
-          setHasNoMatches(res.has_no_matches)
-          setIsMatching(res.is_matching)
-          setIsPostponed(res.postponed)
-          setTotal(res.total)
-          setStatusText(`Получена статистика за промежуток с:`)
-          setTextColor('statistic__text_color_green')
-          setDateText(
-            `${arrMinDate[2]}-${arrMinDate[1]}-${arrMinDate[0]} по ${arrMaxDate[2]}-${arrMaxDate[1]}-${arrMaxDate[0]}`
-          )
-        })
-        .catch(() => {
-          setStatusText('Ошибка сервера')
-          setTextColor('statistic__text_color_red ')
-        })
+      return
     }
+    const convertedMinDate = new Date(minDate)
+    const convertedMaxDate = new Date(maxDate)
+    if (
+      isNaN(convertedMaxDate.getTime()) ||
+      isNaN(convertedMinDate.getTime())
+    ) {
+      setStatusText('Неверный формат даты')
+      setTextColor('statistic__text_color_red')
+      return
+    }
+
+    const normalData = new Date(2000, 0, 1)
+    const now = new Date()
+
+    if (convertedMaxDate.getTime() < convertedMinDate.getTime()) {
+      setStatusText('Конечная дата не может быть меньше начальной')
+      setTextColor('statistic__text_color_red')
+      return
+    }
+
+    if (
+      convertedMaxDate.getTime() < normalData.getTime() ||
+      convertedMinDate.getTime() < normalData.getTime()
+    ) {
+      setStatusText('Минимальная дата - 1 января 2000 г.')
+      setTextColor('statistic__text_color_red')
+      return
+    }
+
+    if (
+      convertedMaxDate.getTime() > now.getTime() ||
+      convertedMinDate.getTime() > now.getTime()
+    ) {
+      setStatusText('Максимальная дата - вчерашний день')
+      setTextColor('statistic__text_color_red')
+      return
+    }
+
+    getStatisticsByDate(minDate, maxDate)
+      .then((res) => {
+        setHasNoMatches(res.has_no_matches)
+        setIsMatching(res.is_matching)
+        setIsPostponed(res.postponed)
+        setTotal(res.total)
+        setStatusText(`Получена статистика за промежуток с:`)
+        setTextColor('statistic__text_color_green')
+        setDateText(`${minDate} по ${maxDate}`)
+      })
+      .catch(() => {
+        setStatusText('Ошибка сервера')
+        setTextColor('statistic__text_color_red')
+      })
   }
 
   function handleChangeMinDate(e) {
@@ -96,8 +101,9 @@ function Statistic() {
       <div className='statistic__container'>
         <div className='statistic__form-container'>
           <p className='statistic__text'>
-            Укажите временной промежуток или оставьте поля пустыми для
-            получения статистики за все время.
+            Укажите временной промежуток, когда были загружены данные в базу
+            данных или оставьте поля пустыми для получения статистики за все
+            время.
           </p>
           <p className='statistic__text statistic__text_type_mini'>
             Дату вводите с тире между цифрами, как в примере
@@ -108,7 +114,7 @@ function Statistic() {
               <input
                 className='data'
                 value={minDate}
-                placeholder='дд-мм-гггг'
+                placeholder='гггг-мм-дд'
                 onChange={handleChangeMinDate}
                 type='text'
               />
@@ -116,7 +122,7 @@ function Statistic() {
             <div className='statistic__input-wrapper'>
               <p className='statistic__text'>по</p>
               <input
-                placeholder='дд-мм-гггг'
+                placeholder='гггг-мм-дд'
                 className='data'
                 value={maxDate}
                 onChange={handleChangeMaxDate}
