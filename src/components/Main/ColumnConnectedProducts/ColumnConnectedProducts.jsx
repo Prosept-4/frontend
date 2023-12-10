@@ -43,7 +43,7 @@ export default function ConnectedProducts() {
   }, [])
 
   useEffect(() => {
-    if (windowHeight >= 735) {
+    if (windowHeight >= 685) {
       setShowTwix(true)
     } else {
       setShowTwix(false)
