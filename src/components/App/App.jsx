@@ -14,6 +14,7 @@ import {getPredictions} from "../../utils/MainApi";
 function App() {
   const navigate = useNavigate();
 
+  const [isLoading, setIsLoading] = useState(true);
   const [isLoaderOpen, setLoaderOpen] = useState(false);
   const [isLoggedIn, setLoggedIn] = useState(false);
 
@@ -54,6 +55,7 @@ function App() {
           console.log(err)
         })
         .finally(() => {
+          setIsLoading(false)
           setLoaderOpen(false)
         })
     } else if (currentPage <= maxPage) {
@@ -123,7 +125,6 @@ function App() {
       api.checkToken(token)
         .then(() => {
           setLoggedIn(true);
-          navigate('/main',{replace: true});
         })
         .catch((err) => {
           console.log(err)
@@ -146,69 +147,71 @@ function App() {
 
   return (
     <div className='page'>
-      <Header
-        isLoggedIn={isLoggedIn}
-        setLoggedIn={setLoggedIn}
-      />
-      <Routes>
-        <Route
-          path="/auth"
-          element={<Auth onSubmit={handleLogin}/>}
+      {!isLoading && <>
+        <Header
+          isLoggedIn={isLoggedIn}
+          setLoggedIn={setLoggedIn}
         />
+        <Routes>
+          <Route
+            path="/auth"
+            element={<Auth onSubmit={handleLogin}/>}
+          />
 
-        <Route
-          path="/main"
-          element={
-            <ProtectedRoute
-              isLoggedIn={isLoggedIn}
-              element={Main}
-            />
-          }
-        />
+          <Route
+            path="/main"
+            element={
+              <ProtectedRoute
+                isLoggedIn={isLoggedIn}
+                element={Main}
+              />
+            }
+          />
 
-        <Route
-          path="/table"
-          element={
-            <ProtectedRoute
-              isLoggedIn={isLoggedIn}
-              element={Table}
-              matchedItems={matchedItems}
-              currentPage={currentPage}
-              setCurrentPage={setCurrentPage}
-              maxPage={maxPage}
-              deleteMatchedItems={deleteMatchedItems}
-              setPopupOpen={setPopupOpen}
-              setPopupData={setPopupData}
-            />
-          }
-        />
+          <Route
+            path="/table"
+            element={
+              <ProtectedRoute
+                isLoggedIn={isLoggedIn}
+                element={Table}
+                matchedItems={matchedItems}
+                currentPage={currentPage}
+                setCurrentPage={setCurrentPage}
+                maxPage={maxPage}
+                deleteMatchedItems={deleteMatchedItems}
+                setPopupOpen={setPopupOpen}
+                setPopupData={setPopupData}
+              />
+            }
+          />
 
-        <Route
-          path="/stats"
-          element={
-            <ProtectedRoute
-              isLoggedIn={isLoggedIn}
-              element={Statistic}
-            />
-          }
-        />
+          <Route
+            path="/stats"
+            element={
+              <ProtectedRoute
+                isLoggedIn={isLoggedIn}
+                element={Statistic}
+              />
+            }
+          />
 
-        <Route
-          path="*"
-          element={<Navigate to="/auth" />}
+          <Route
+            path="*"
+            element={<Navigate to="/auth" />}
+          />
+        </Routes>
+        <Popup
+          setOpen={setPopupOpen}
+          isOpen={isPopupOpen}
+          setData={setPopupData}
+          data={popupData}
+          getPredictions={getPredictionsForPopup}
+          predictions={predictions}
         />
-      </Routes>
-      <Popup
-        setOpen={setPopupOpen}
-        isOpen={isPopupOpen}
-        setData={setPopupData}
-        data={popupData}
-        getPredictions={getPredictionsForPopup}
-        predictions={predictions}
-      />
-      <Loader
-        isOpen={isLoaderOpen}
-      />
+        <Loader
+          isOpen={isLoaderOpen}
+        />
+      </>}
     </div>
   )
 }
