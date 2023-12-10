@@ -76,9 +76,11 @@ function App() {
           setLoaderOpen(false)
           setIsAppLoading(false)
         })
+    } else {
+      setLoggedIn(false)
+      setIsAppLoading(false)
+      setLoaderOpen(false)
     }
-
-    setLoaderOpen(false)
   }, [])
 
   return (
@@ -87,7 +89,9 @@ function App() {
         <>
           <Header isLoggedIn={isLoggedIn} setLoggedIn={setLoggedIn} />
           <Routes>
-            {!isLoggedIn && <Route path='/auth' element={<Auth onSubmit={handleLogin} />} />}
+            {!isLoggedIn && (
+              <Route path='/auth' element={<Auth onSubmit={handleLogin} />} />
+            )}
 
             <Route
               path='/main'
@@ -124,7 +128,12 @@ function App() {
               }
             />
 
-            <Route path='*' element={<Navigate to='/auth' />} />
+            {isLoggedIn && (
+              <Route path='*' element={<Navigate to='/main' />} />
+            )}
+            {!isLoggedIn && (
+              <Route path='*' element={<Navigate to='/auth' />} />
+            )}
           </Routes>
           <Popup
             setOpen={setPopupOpen}
@@ -133,10 +142,11 @@ function App() {
             data={popupData}
             setPredictions={setPredictions}
             predictions={predictions}
+            setMatchedItems={setMatchedItems}
           />
-          <Loader isOpen={isLoaderOpen} />
         </>
       )}
+      <Loader isOpen={isLoaderOpen} />
     </div>
   )
 }

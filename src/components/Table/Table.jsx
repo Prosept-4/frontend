@@ -65,24 +65,6 @@ function Table({
     window.scrollTo(0, 0)
   }
 
-  // function checkPositions() {
-  //   if (positions.length) {
-  //     return positions
-  //   } else {
-  //     return <p className='position__error'>Нет записей в базе данных</p>
-  //   }
-  // }
-
-  // const positions = matchedItems.map((data) => (
-  //   <Position
-  //     deleteMatchedItems={deleteMatchedItems}
-  //     data={data}
-  //     setPopupOpen={setPopupOpen}
-  //     setPopupData={setPopupData}
-  //     key={data.id}
-  //   />
-  // ))
-
   return (
     <section className='table'>
       <div className='table__headers'>

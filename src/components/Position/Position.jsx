@@ -1,4 +1,4 @@
-import { useState,  useEffect } from 'react'
+import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { getPredictions } from '../../utils/MainApi'
 function Position({
@@ -9,10 +9,6 @@ function Position({
   setPredictions,
 }) {
   const [isMainButtonActive, toggleMainButton] = useState(false)
-
-  useEffect(()=>{
-
-  },[data.prduct_id])
 
   function handleMainButton() {
     toggleMainButton(!isMainButtonActive)
