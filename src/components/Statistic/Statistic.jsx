@@ -16,7 +16,7 @@ function Statistic() {
     e.preventDefault()
     setStatusText('')
     setTextColor('')
-    setDateText()
+    setDateText('')
     const arrMinDate = minDate.split('-')
     const arrMaxDate = maxDate.split('-')
     if (arrMinDate.length < 3 || arrMaxDate.length < 3) {
@@ -28,19 +28,12 @@ function Statistic() {
           setTotal(res.total)
           setStatusText('Получена статистика за всё время')
           setTextColor('statistic__text_color_green')
-          setMinDate('')
-          setMaxDate('')
         })
         .catch(() => {
           setStatusText('Ошибка сервера')
           setTextColor('statistic__text_color_red ')
         })
-        .finally(() => {
-          setTimeout(() => {
-            setStatusText('')
-            setTextColor('')
-          }, '10000')
-        })
+
     } else {
       getStatisticsByDate(arrMinDate, arrMaxDate)
         .then((res) => {
@@ -53,19 +46,10 @@ function Statistic() {
           setDateText(
             `${arrMinDate[2]}-${arrMinDate[1]}-${arrMinDate[0]} по ${arrMaxDate[2]}-${arrMaxDate[1]}-${arrMaxDate[0]}`
           )
-          setMinDate('')
-          setMaxDate('')
         })
         .catch(() => {
           setStatusText('Ошибка сервера')
           setTextColor('statistic__text_color_red ')
-        })
-        .finally(() => {
-          setTimeout(() => {
-            setStatusText('')
-            setTextColor('')
-            setDateText('')
-          }, '10000')
         })
     }
   }
