@@ -72,7 +72,7 @@ export default function Search({
       .finally(() => {
         setTimeout(() => {
           setErrText('')
-        }, '5000')
+        }, 5000)
         setIsLoadingProductsList(false)
       })
   }

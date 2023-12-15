@@ -33,7 +33,7 @@ export default function ConnectedProducts() {
     function handleWindowResizeTimeout() {
       setTimeout(() => {
         setWindowHeight(document.documentElement.clientHeight)
-      }, '500')
+      }, 500)
     }
 
     window.addEventListener('resize', handleWindowResizeTimeout)
@@ -67,7 +67,7 @@ export default function ConnectedProducts() {
       .finally(() => {
         setTimeout(() => {
           dispatch(setProseptErr({ err: '' }))
-        }, '5000')
+        }, 5000)
       })
   }
 
@@ -83,7 +83,7 @@ export default function ConnectedProducts() {
       .finally(() => {
         setTimeout(() => {
           dispatch(setProseptErr({ err: '' }))
-        }, '5000')
+        }, 5000)
       })
   }
 

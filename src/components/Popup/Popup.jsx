@@ -21,7 +21,7 @@ function Popup({
   function checkArticle() {
     if (data?.key?.includes('https')) {
       return (
-        <Link className='position__link' to={data.key} target='_blank'>
+        <Link className='position__link' to={data.key} target='_blank' rel="noreferrer">
           Ссылка
         </Link>
       )
@@ -82,7 +82,7 @@ function Popup({
               <Link
                 className='position__link'
                 to={data.dealer_product_url}
-                target='_blank'>
+                target='_blank' rel="noreferrer">
                 Товар
               </Link>
             </div>

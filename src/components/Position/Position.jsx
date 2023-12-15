@@ -42,7 +42,7 @@ function Position({
   function checkArticle() {
     if (data?.key?.includes('http')) {
       return (
-        <Link className='position__link' to={data.key} target='_blank'>
+        <Link className='position__link' to={data.key} rel="noreferrer" target='_blank'>
           Ссылка
         </Link>
       )
@@ -64,7 +64,7 @@ function Position({
           <div className='position__key'>Артикул: {checkArticle()}</div>
           <p className='position__price'>Цена: {data.dealer_product_price}</p>
           <Link
-            className='position__link'
+            className='position__link' rel="noreferrer"
             to={data.dealer_product_url}
             target='_blank'>
             Товар

@@ -55,7 +55,7 @@ export default function ProseptProducts() {
       .finally(() => {
         setTimeout(() => {
           dispatch(setProseptErr({ err: '' }))
-        }, '5000')
+        }, 5000)
       })
   }
 
@@ -71,7 +71,7 @@ export default function ProseptProducts() {
       .finally(() => {
         setTimeout(() => {
           dispatch(setProseptErr({ err: '' }))
-        }, '5000')
+        }, 5000)
       })
   }
 

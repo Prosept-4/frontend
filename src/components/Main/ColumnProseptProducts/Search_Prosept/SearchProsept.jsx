@@ -28,7 +28,7 @@ export default function SearchProsept() {
       )
       setTimeout(() => {
         dispatch(setProseptErr({ err: '' }))
-      }, '5000')
+      }, 5000)
       return
     }
     dispatch(activateLoader())
@@ -48,7 +48,7 @@ export default function SearchProsept() {
         dispatch(deactivateLoader())
         setTimeout(() => {
           dispatch(setProseptErr({ err: '' }))
-        }, '5000')
+        }, 5000)
       })
   }
 

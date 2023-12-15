@@ -59,7 +59,7 @@ export default function Product({ product, setErrText }) {
         dispatch(deactivateLoader())
         setTimeout(() => {
           setErrText('')
-        }, '5000')
+        }, 5000)
       })
   }
 
