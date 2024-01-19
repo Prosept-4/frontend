@@ -42,6 +42,7 @@ function Auth({onSubmit}) {
           onChange={handlePasswordChange}
           required
         />
+        <p className="note">Логин: a@a.ru | Пароль: 1</p>
         <button className="auth__button">
           Войти
         </button>
